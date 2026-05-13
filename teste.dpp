@@ -1,0 +1,54 @@
+family Produto start
+    unalterable number codigo << 182279.
+    alterable number valor_comprado << 0.
+    alterable number porcentagem << 0.
+
+    procedure Valores_produto [number v | number p]
+    start
+        valor_comprado << v.
+        porcentagem << p.
+    finish
+
+    function number valor_final [] 
+    start
+        alterable number preco << valor_comprado / (1 * (porcentagem / 100)).
+        preco
+    finish .
+finish
+
+family Mercado start
+    unalterable number id_mercado << 1.
+
+    object Periphericals io.
+    object Produto item.
+
+    >> procedure Principal[]
+    start 
+        alterable number qtd_produtos << 0.
+        alterable number contador << 0.
+
+        --variaveis temporarias para poder ler o teclado
+        alterable number temp_valor << 0.
+        alterable number temp_porcent << 0.
+        alterable number resultado << 0.
+    
+        --o usuario digita quantos produtos quer registrar
+        qtd_produtos << io.capture[].
+
+        as long as (contador < qtd_produtos)
+        start
+            temp_valor << io.capture[].
+            temp_porcent << io.capture[].
+
+            item.Valores_produto[temp_valor | temp_porcent].
+
+            resultado << item.valor_final[].
+
+            io.show[item.codigo].
+            io.show[resultado].
+
+            contador << contador + 1.
+        finish
+    finish
+finish
+

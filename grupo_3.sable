@@ -1,0 +1,72 @@
+Package dplusplus;
+
+Helpers
+    all = [0 .. 0xFFFF];
+    letra_min = ['a' .. 'z'];
+    letra_mai = ['A' .. 'Z'];
+    digito = ['0' .. '9'];
+    cr = 13;
+    lf = 10;
+    tab = 9;
+    eol = cr | lf | cr lf;
+    vazio = (' ' | tab | eol)+;
+
+    nao_hifen = [all - '-'];
+    nao_hifen_chave = [nao_hifen - '}'];
+
+Tokens
+    answer = 'answer';
+    number = 'number';
+    yes = 'yes';
+    no = 'no';
+    start_block = 'start';
+    finish_block = 'finish';
+    in_case_that = 'in case that';
+    otherwise = 'otherwise';
+    as_long_as = 'as long as';
+    function = 'function';
+    procedure = 'procedure';
+    object = 'object';
+    alterable = 'alterable';
+    unalterable = 'unalterable';
+    family = 'family';
+    derives_from = 'derives from';
+    
+    if = 'if';
+    else = 'else';
+
+    soma = '+';
+    subtracao = '-';
+    multiplicacao = '*';
+    divisao = '/';
+    igual = '=';
+    menor_que = '<';
+    maior_que = '>';
+    negacao = '!';
+    e_logico = 'and';
+    ou_logico = 'or';
+    ponto = '.';
+    atribuicao = '<<';
+    ponto_entrada = '>>'; // (Atividade 1 e 3)
+    colchete_esq = '[';
+    colchete_dir = ']';
+    parentese_esq = '(';
+    parentese_dir = ')';
+    pipe = '|';
+    ampersand = '&';
+
+    valor_inteiro = digito+;
+    valor_real = digito+ '.' digito+;
+
+    id = letra_min (letra_min | letra_mai | '_')*;
+    id_classe = letra_mai (letra_min | letra_mai | '_')*;
+
+    comentario_linha = '--' [all - [10 + 13]]* eol?;
+    comentario_bloco = '{-' nao_hifen* '-'+ (nao_hifen_chave nao_hifen* '-'+)* '}';
+
+    espaco_vazio = vazio;
+
+Ignored Tokens
+    espaco_vazio,
+    comentario_linha,
+    comentario_bloco;

@@ -1,0 +1,119 @@
+{-
+    classe principal sendo Animal, tendo os filhos cachorro e gato
+    dentro de cada um vai ter suas particularidades 
+    fazer a classe veterinario que vai receber um animal, e passar por uma das tres opções: banho, tosa ou consulta
+-}
+
+family Cachorro derives from Animal & family Gato derives from Animal.
+
+family Animal start
+    alterable number peso << 0.
+    alterable number procedimento << 0. --aqui vai ser 1:banho, 2:consulta
+    alterable number valor << 0.
+
+    procedure definindo [number p | number r] 
+    start
+        peso << p.
+        procedimento << r.
+    finish
+
+--implementação de um metodo abstrato
+    procedure som [] .
+finish
+
+family Gato start
+    object Periphericals io.
+    alterable number raiva << 30.
+
+    --considere 67 como o miau
+    procedure som [] start
+        io.show[67].
+    finish
+
+    -- 69 eh azunhou
+    procedure azunhar [] start
+        alterable number six_seven_interior << if (raiva = 67) six_seven_interior << -1 else six_seven_interior << raiva.
+        in case that (!(six_seven_interior < 67)) start
+            io.show[69].
+        finish
+        otherwise in case that (six_seven_interior = -1)
+        start
+            io.show[six_seven_interior].
+        finish
+    finish
+finish
+
+family Cachorro start
+    object Periphericals io.
+    alterable number medo << 10.
+
+    -- considere 420 como auau
+    procedure som [] start
+        io.show[420].
+    finish
+
+    -- 0 eh fuga
+    procedure fuga [] start
+        in case that (medo > 67) start
+            io.show[0].
+        finish
+    finish
+finish
+
+
+family Veterinario start
+    object Periphericals io.
+    object Gato rebolation.
+    object Cachorro coragem.
+
+    unalterable number banho << 50.75.
+    unalterable number consulta << 80.50.
+
+    alterable number temp_peso << 0.
+    alterable number temp_proced << 0.
+    alterable number temp_animal << 0.
+
+    unalterable number qtd_animais << io.capture[]().
+    alterable number contador << 0.
+
+    >> procedure Principal []
+    start
+        as long as (contador < qtd_animais) 
+        start
+            -- testando os limites da linguagem
+            alterable number x << start
+                alterable number a << 10.
+                a + 5.
+            finish
+
+            temp_peso << io.capture[].
+            temp_proced << io.capture[].
+            temp_animal << io.capture[].
+
+            rebolation.raiva << io.capture[].
+            coragem.medo << io.capture[].
+
+            rebolation.azunhar[].
+            coragem.fuga[].
+
+            in case that (temp_animal = 1)
+            start
+                coragem.definindo[temp_peso | temp_proced].
+                in case that (coragem.procedimento = 1) coragem.valor << banho.
+                otherwise coragem.valor << consulta.
+                coragem.som[].
+                io.show[coragem.valor].
+            finish
+            otherwise
+            start
+                rebolation.definindo[temp_peso | temp_proced].
+                in case that (rebolation.procedimento = 1) rebolation.valor << banho.
+                otherwise rebolation.valor << consulta.
+                rebolation.som[].
+                io.show[rebolation.valor].
+            finish
+
+            contador << contador + 1.
+        finish
+    finish
+finish

@@ -1,0 +1,36 @@
+-- classe base
+family Entidade start
+    alterable number vida << 100.
+    alterable answer vivo << yes.
+    procedure tomar_dano [number dano] .
+finish
+
+--classe filha
+family Inimigo derives from Entidade start
+    unalterable number dano_base << 15.
+    alterable answer enfurecido << no.
+
+    -- procedimento herdado
+    procedure tomar_dano [number dano]
+    start
+        vida << vida - dano.
+
+        in case that (vida < 0 or vida = 0)
+        start
+            vivo << no.
+            vida << 0.
+        finish
+        otherwise
+        start
+            in case that (vida < 30 and vivo)
+                enfurecido << yes.
+        finish
+    finish
+
+    -- retorno utilizando bloco_exp
+    function number ataque_especial []
+    start
+        unalterable number multiplicador << 2.
+        dano_base * multiplicador
+    finish .
+finish
