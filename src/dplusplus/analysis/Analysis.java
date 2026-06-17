@@ -11,6 +11,25 @@ public interface Analysis extends Switch
     Object getOut(Node node);
     void setOut(Node node, Object o);
 
+    void caseStart(Start node);
+    void caseAPrograma(APrograma node);
+    void caseAGenealogia(AGenealogia node);
+    void caseAListaRelacoes(AListaRelacoes node);
+    void caseARelacao(ARelacao node);
+    void caseADefClasse(ADefClasse node);
+    void caseAAtributos(AAtributos node);
+    void caseAObjDeclaracao(AObjDeclaracao node);
+    void caseAVarDeclaracao(AVarDeclaracao node);
+    void caseAConsDeclaracao(AConsDeclaracao node);
+    void caseADecObj(ADecObj node);
+    void caseADecVar(ADecVar node);
+    void caseADecCons(ADecCons node);
+    void caseAAnswerTipoPrimitivo(AAnswerTipoPrimitivo node);
+    void caseANumberTipoPrimitivo(ANumberTipoPrimitivo node);
+    void caseAMetodos(AMetodos node);
+    void caseAComandoVazio(AComandoVazio node);
+    void caseAInteiroExp(AInteiroExp node);
+
     void caseTAnswer(TAnswer node);
     void caseTNumber(TNumber node);
     void caseTYes(TYes node);

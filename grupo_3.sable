@@ -70,3 +70,38 @@ Ignored Tokens
     espaco_vazio,
     comentario_linha,
     comentario_bloco;
+    
+Productions
+    programa = genealogia? def_classe+;
+
+    genealogia = relacao lista_relacoes* ponto;
+
+    lista_relacoes = ampersand relacao;
+
+    relacao = family [filha]:id_classe derives_from [mae]:id_classe;
+
+    def_classe = family id_classe start_block atributos metodos finish_block;
+
+    atributos = declaracao*; 
+
+    declaracao = 
+        {obj} dec_obj | 
+        {var} dec_var | 
+        {cons} dec_cons;
+
+    dec_obj = object id_classe id ponto;
+
+    dec_var = alterable tipo_primitivo id atribuicao exp ponto;
+
+    dec_cons = unalterable tipo_primitivo id atribuicao exp ponto;
+
+    tipo_primitivo = 
+        {answer} answer | 
+        {number} number;
+
+    metodos = comando_vazio*;
+    
+    comando_vazio = start_block finish_block ponto?;
+
+    exp = 
+        {inteiro} valor_inteiro;

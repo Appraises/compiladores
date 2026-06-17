@@ -69,6 +69,114 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseStart(Start node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAPrograma(APrograma node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAGenealogia(AGenealogia node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAListaRelacoes(AListaRelacoes node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseARelacao(ARelacao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADefClasse(ADefClasse node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAtributos(AAtributos node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAObjDeclaracao(AObjDeclaracao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAVarDeclaracao(AVarDeclaracao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAConsDeclaracao(AConsDeclaracao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADecObj(ADecObj node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADecVar(ADecVar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADecCons(ADecCons node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAnswerTipoPrimitivo(AAnswerTipoPrimitivo node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseANumberTipoPrimitivo(ANumberTipoPrimitivo node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAMetodos(AMetodos node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAComandoVazio(AComandoVazio node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAInteiroExp(AInteiroExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTAnswer(TAnswer node)
     {
         defaultCase(node);
