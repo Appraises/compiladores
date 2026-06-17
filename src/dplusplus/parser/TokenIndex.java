@@ -184,80 +184,86 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTAtribuicao(@SuppressWarnings("unused") TAtribuicao node)
+    public void caseTPontoAcesso(@SuppressWarnings("unused") TPontoAcesso node)
     {
         this.index = 29;
     }
 
     @Override
-    public void caseTPontoEntrada(@SuppressWarnings("unused") TPontoEntrada node)
+    public void caseTAtribuicao(@SuppressWarnings("unused") TAtribuicao node)
     {
         this.index = 30;
     }
 
     @Override
-    public void caseTColcheteEsq(@SuppressWarnings("unused") TColcheteEsq node)
+    public void caseTPontoEntrada(@SuppressWarnings("unused") TPontoEntrada node)
     {
         this.index = 31;
     }
 
     @Override
-    public void caseTColcheteDir(@SuppressWarnings("unused") TColcheteDir node)
+    public void caseTColcheteEsq(@SuppressWarnings("unused") TColcheteEsq node)
     {
         this.index = 32;
     }
 
     @Override
-    public void caseTParenteseEsq(@SuppressWarnings("unused") TParenteseEsq node)
+    public void caseTColcheteDir(@SuppressWarnings("unused") TColcheteDir node)
     {
         this.index = 33;
     }
 
     @Override
-    public void caseTParenteseDir(@SuppressWarnings("unused") TParenteseDir node)
+    public void caseTParenteseEsq(@SuppressWarnings("unused") TParenteseEsq node)
     {
         this.index = 34;
     }
 
     @Override
-    public void caseTPipe(@SuppressWarnings("unused") TPipe node)
+    public void caseTParenteseDir(@SuppressWarnings("unused") TParenteseDir node)
     {
         this.index = 35;
     }
 
     @Override
-    public void caseTAmpersand(@SuppressWarnings("unused") TAmpersand node)
+    public void caseTPipe(@SuppressWarnings("unused") TPipe node)
     {
         this.index = 36;
     }
 
     @Override
-    public void caseTValorInteiro(@SuppressWarnings("unused") TValorInteiro node)
+    public void caseTAmpersand(@SuppressWarnings("unused") TAmpersand node)
     {
         this.index = 37;
     }
 
     @Override
-    public void caseTValorReal(@SuppressWarnings("unused") TValorReal node)
+    public void caseTValorInteiro(@SuppressWarnings("unused") TValorInteiro node)
     {
         this.index = 38;
     }
 
     @Override
-    public void caseTId(@SuppressWarnings("unused") TId node)
+    public void caseTValorReal(@SuppressWarnings("unused") TValorReal node)
     {
         this.index = 39;
     }
 
     @Override
-    public void caseTIdClasse(@SuppressWarnings("unused") TIdClasse node)
+    public void caseTId(@SuppressWarnings("unused") TId node)
     {
         this.index = 40;
     }
 
     @Override
-    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    public void caseTIdClasse(@SuppressWarnings("unused") TIdClasse node)
     {
         this.index = 41;
+    }
+
+    @Override
+    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    {
+        this.index = 42;
     }
 }

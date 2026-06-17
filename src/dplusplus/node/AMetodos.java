@@ -8,7 +8,7 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AMetodos extends PMetodos
 {
-    private final LinkedList<PComandoVazio> _comandoVazio_ = new LinkedList<PComandoVazio>();
+    private final LinkedList<PMetodo> _metodo_ = new LinkedList<PMetodo>();
 
     public AMetodos()
     {
@@ -16,10 +16,10 @@ public final class AMetodos extends PMetodos
     }
 
     public AMetodos(
-        @SuppressWarnings("hiding") List<?> _comandoVazio_)
+        @SuppressWarnings("hiding") List<?> _metodo_)
     {
         // Constructor
-        setComandoVazio(_comandoVazio_);
+        setMetodo(_metodo_);
 
     }
 
@@ -27,7 +27,7 @@ public final class AMetodos extends PMetodos
     public Object clone()
     {
         return new AMetodos(
-            cloneList(this._comandoVazio_));
+            cloneList(this._metodo_));
     }
 
     @Override
@@ -36,29 +36,29 @@ public final class AMetodos extends PMetodos
         ((Analysis) sw).caseAMetodos(this);
     }
 
-    public LinkedList<PComandoVazio> getComandoVazio()
+    public LinkedList<PMetodo> getMetodo()
     {
-        return this._comandoVazio_;
+        return this._metodo_;
     }
 
-    public void setComandoVazio(List<?> list)
+    public void setMetodo(List<?> list)
     {
-        for(PComandoVazio e : this._comandoVazio_)
+        for(PMetodo e : this._metodo_)
         {
             e.parent(null);
         }
-        this._comandoVazio_.clear();
+        this._metodo_.clear();
 
         for(Object obj_e : list)
         {
-            PComandoVazio e = (PComandoVazio) obj_e;
+            PMetodo e = (PMetodo) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._comandoVazio_.add(e);
+            this._metodo_.add(e);
         }
     }
 
@@ -66,14 +66,14 @@ public final class AMetodos extends PMetodos
     public String toString()
     {
         return ""
-            + toString(this._comandoVazio_);
+            + toString(this._metodo_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._comandoVazio_.remove(child))
+        if(this._metodo_.remove(child))
         {
             return;
         }
@@ -85,13 +85,13 @@ public final class AMetodos extends PMetodos
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        for(ListIterator<PComandoVazio> i = this._comandoVazio_.listIterator(); i.hasNext();)
+        for(ListIterator<PMetodo> i = this._metodo_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PComandoVazio) newChild);
+                    i.set((PMetodo) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

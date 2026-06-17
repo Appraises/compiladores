@@ -45,9 +45,12 @@ Tokens
     negacao = '!';
     e_logico = 'and';
     ou_logico = 'or';
+    
     ponto = '.';
+    ponto_acesso = '.' (letra_min | letra_mai) (letra_min | letra_mai | '_')*;
+    
     atribuicao = '<<';
-    ponto_entrada = '>>'; // (Atividade 1 e 3)
+    ponto_entrada = '>>';
     colchete_esq = '[';
     colchete_dir = ']';
     parentese_esq = '(';
@@ -82,7 +85,7 @@ Productions
 
     def_classe = family id_classe start_block atributos metodos finish_block;
 
-    atributos = declaracao*; 
+    atributos = declaracao*;
 
     declaracao = 
         {obj} dec_obj | 
@@ -99,9 +102,104 @@ Productions
         {answer} answer | 
         {number} number;
 
-    metodos = comando_vazio*;
+    metodos = metodo*;
+
+    metodo = 
+        {procedimento} dec_procedimento |
+        {funcao} dec_funcao;
+
+    dec_procedimento = 
+        {com_comando} ponto_entrada? procedure id colchete_esq lista_parametros? colchete_dir comando |
+        {vazio} ponto_entrada? procedure id colchete_esq lista_parametros? colchete_dir ponto;
+
+    dec_funcao = 
+        {com_exp} function tipo id colchete_esq lista_parametros? colchete_dir exp ponto |
+        {vazia} function tipo id colchete_esq lista_parametros? colchete_dir ponto;
+
+    tipo = 
+        {classe} id_classe |
+        {primitivo} tipo_primitivo;
+
+    lista_parametros = parametro parametro_extra*;
+
+    parametro_extra = pipe parametro;
+
+    parametro = tipo id;
+
+    comando = 
+        {fechado} comando_fechado |
+        {aberto} comando_aberto;
+
+    comando_fechado = 
+        {condicional_else} in_case_that parentese_esq exp parentese_dir [comando_if]:comando_fechado otherwise [comando_else]:comando_fechado |
+        {laco} as_long_as parentese_esq exp parentese_dir comando_fechado |
+        {atribuicao} id atribuicao exp ponto |
+        {atribuicao_obj} acesso atribuicao exp ponto |
+        {bloco} bloco |
+        {chamada} chamada ponto;
+
+    comando_aberto = 
+        {condicional} in_case_that parentese_esq exp parentese_dir comando |
+        {condicional_else} in_case_that parentese_esq exp parentese_dir [comando_if]:comando_fechado otherwise [comando_else]:comando_aberto |
+        {laco} as_long_as parentese_esq exp parentese_dir comando_aberto;
+
+    bloco = start_block atributos lista_comandos finish_block;
     
-    comando_vazio = start_block finish_block ponto?;
+    lista_comandos = comando*;
+
+    chamada = id ponto_acesso* colchete_esq lista_exp? colchete_dir;
+    
+    lista_exp = exp exp_extra*;
+    
+    exp_extra = pipe exp;
+
+    acesso = id ponto_acesso+;
+
+    bloco_exp = start_block atributos exp finish_block;
 
     exp = 
-        {inteiro} valor_inteiro;
+        {ternario} if parentese_esq [condicao]:exp parentese_dir [comando_if]:comando else [comando_else]:comando |
+        {or} exp_or;
+
+    exp_or = 
+        {or} exp_or ou_logico exp_and |
+        {and} exp_and;
+
+    exp_and = 
+        {and} exp_and e_logico exp_igual |
+        {igual} exp_igual;
+
+    exp_igual = 
+        {igual} exp_igual igual exp_relacional |
+        {relacional} exp_relacional;
+
+    exp_relacional = 
+        {menor} exp_relacional menor_que exp_soma |
+        {maior} exp_relacional maior_que exp_soma |
+        {soma} exp_soma;
+
+    exp_soma = 
+        {soma} exp_soma soma exp_mult |
+        {subtracao} exp_soma subtracao exp_mult |
+        {mult} exp_mult;
+
+    exp_mult = 
+        {mult} exp_mult multiplicacao exp_unaria |
+        {divisao} exp_mult divisao exp_unaria |
+        {unaria} exp_unaria;
+
+    exp_unaria = 
+        {negacao} negacao exp_unaria |
+        {negativo} subtracao exp_unaria |
+        {termo} termo;
+
+    termo = 
+        {inteiro} valor_inteiro |
+        {real} valor_real |
+        {yes} yes |
+        {no} no |
+        {id} id |
+        {acesso} acesso |
+        {chamada} chamada |
+        {bloco} bloco_exp |
+        {parenteses} parentese_esq exp parentese_dir;
