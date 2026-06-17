@@ -32,7 +32,7 @@ family Gato start
 
     -- 69 eh azunhou
     procedure azunhar [] start
-        alterable number six_seven_interior << if (raiva = 67) six_seven_interior << -1 else six_seven_interior << raiva.
+        alterable number six_seven_interior << if (raiva = 67) six_seven_interior << -1. else six_seven_interior << raiva. .
         in case that (!(six_seven_interior < 67)) start
             io.show[69].
         finish
@@ -73,17 +73,17 @@ family Veterinario start
     alterable number temp_proced << 0.
     alterable number temp_animal << 0.
 
-    unalterable number qtd_animais << io.capture[]().
+    unalterable number qtd_animais << io.capture[].
     alterable number contador << 0.
 
-    >> procedure Principal []
+    >> procedure principal []
     start
         as long as (contador < qtd_animais) 
         start
             -- testando os limites da linguagem
             alterable number x << start
                 alterable number a << 10.
-                a + 5.
+                a + 5
             finish
 
             temp_peso << io.capture[].
