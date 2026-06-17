@@ -2663,18 +2663,18 @@ public class Parser
         TParenteseEsq tparenteseesqNode3;
         PExp pexpNode4;
         TParenteseDir tparentesedirNode5;
-        PComando pcomandoNode6;
+        PExp pexpNode6;
         TElse telseNode7;
-        PComando pcomandoNode8;
+        PExp pexpNode8;
         tifNode2 = (TIf)nodeArrayList1.get(0);
         tparenteseesqNode3 = (TParenteseEsq)nodeArrayList2.get(0);
         pexpNode4 = (PExp)nodeArrayList3.get(0);
         tparentesedirNode5 = (TParenteseDir)nodeArrayList4.get(0);
-        pcomandoNode6 = (PComando)nodeArrayList5.get(0);
+        pexpNode6 = (PExp)nodeArrayList5.get(0);
         telseNode7 = (TElse)nodeArrayList6.get(0);
-        pcomandoNode8 = (PComando)nodeArrayList7.get(0);
+        pexpNode8 = (PExp)nodeArrayList7.get(0);
 
-        pexpNode1 = new ATernarioExp(tifNode2, tparenteseesqNode3, pexpNode4, tparentesedirNode5, pcomandoNode6, telseNode7, pcomandoNode8);
+        pexpNode1 = new ATernarioExp(tifNode2, tparenteseesqNode3, pexpNode4, tparentesedirNode5, pexpNode6, telseNode7, pexpNode8);
         }
 	nodeList.add(pexpNode1);
         return nodeList;
@@ -3883,7 +3883,7 @@ public class Parser
 			{{-1, REDUCE, 22}, },
 			{{-1, ERROR, 163}, {4, SHIFT, 113}, {6, SHIFT, 114}, {8, SHIFT, 115}, {28, SHIFT, 182}, {40, SHIFT, 117}, },
 			{{-1, REDUCE, 61}, },
-			{{-1, ERROR, 165}, {4, SHIFT, 113}, {6, SHIFT, 114}, {8, SHIFT, 115}, {40, SHIFT, 117}, },
+			{{-1, ERROR, 165}, {2, SHIFT, 63}, {3, SHIFT, 64}, {4, SHIFT, 65}, {16, SHIFT, 66}, {19, SHIFT, 67}, {25, SHIFT, 68}, {34, SHIFT, 69}, {38, SHIFT, 70}, {39, SHIFT, 71}, {40, SHIFT, 72}, },
 			{{-1, REDUCE, 55}, },
 			{{-1, ERROR, 167}, {2, SHIFT, 63}, {3, SHIFT, 64}, {4, SHIFT, 65}, {16, SHIFT, 66}, {19, SHIFT, 67}, {25, SHIFT, 68}, {34, SHIFT, 69}, {38, SHIFT, 70}, {39, SHIFT, 71}, {40, SHIFT, 72}, },
 			{{-1, REDUCE, 105}, },
@@ -3913,7 +3913,7 @@ public class Parser
 			{{-1, ERROR, 192}, {4, SHIFT, 113}, {6, SHIFT, 114}, {8, SHIFT, 115}, {40, SHIFT, 117}, },
 			{{-1, REDUCE, 43}, },
 			{{-1, REDUCE, 44}, },
-			{{-1, ERROR, 195}, {4, SHIFT, 113}, {6, SHIFT, 114}, {8, SHIFT, 115}, {40, SHIFT, 117}, },
+			{{-1, ERROR, 195}, {2, SHIFT, 63}, {3, SHIFT, 64}, {4, SHIFT, 65}, {16, SHIFT, 66}, {19, SHIFT, 67}, {25, SHIFT, 68}, {34, SHIFT, 69}, {38, SHIFT, 70}, {39, SHIFT, 71}, {40, SHIFT, 72}, },
 			{{-1, REDUCE, 47}, },
 			{{-1, REDUCE, 39}, {7, SHIFT, 201}, },
 			{{-1, REDUCE, 42}, },
@@ -3944,17 +3944,17 @@ public class Parser
 			{{-1, 89}, {86, 112}, {91, 130}, },
 			{{-1, 127}, {128, 160}, },
 			{{-1, 90}, {126, 159}, },
-			{{-1, 118}, {125, 158}, {129, 162}, {151, 175}, {163, 183}, {165, 184}, {177, 190}, {191, 196}, {195, 200}, },
+			{{-1, 118}, {125, 158}, {129, 162}, {151, 175}, {163, 183}, {177, 190}, {191, 196}, },
 			{{-1, 119}, {191, 197}, {192, 198}, {201, 202}, },
 			{{-1, 120}, {192, 199}, {201, 203}, },
 			{{-1, 121}, },
 			{{-1, 176}, },
-			{{-1, 73}, {87, 122}, {125, 122}, {129, 122}, {151, 122}, {163, 122}, {165, 122}, {177, 122}, {191, 122}, {192, 122}, {195, 122}, {201, 122}, },
+			{{-1, 73}, {87, 122}, {125, 122}, {129, 122}, {151, 122}, {163, 122}, {177, 122}, {191, 122}, {192, 122}, {201, 122}, },
 			{{-1, 135}, {138, 171}, },
 			{{-1, 168}, {169, 186}, },
-			{{-1, 74}, {87, 123}, {125, 123}, {129, 123}, {151, 123}, {163, 123}, {165, 123}, {177, 123}, {191, 123}, {192, 123}, {195, 123}, {201, 123}, },
+			{{-1, 74}, {87, 123}, {125, 123}, {129, 123}, {151, 123}, {163, 123}, {177, 123}, {191, 123}, {192, 123}, {201, 123}, },
 			{{-1, 75}, },
-			{{-1, 136}, {58, 76}, {59, 85}, {69, 96}, {92, 131}, {93, 132}, {111, 149}, {150, 174}, {152, 178}, {153, 179}, {154, 180}, {156, 181}, {167, 185}, },
+			{{-1, 136}, {58, 76}, {59, 85}, {69, 96}, {92, 131}, {93, 132}, {111, 149}, {150, 174}, {152, 178}, {153, 179}, {154, 180}, {156, 181}, {165, 184}, {167, 185}, {195, 200}, },
 			{{-1, 77}, },
 			{{-1, 78}, {101, 139}, },
 			{{-1, 79}, {102, 140}, },
@@ -3995,35 +3995,35 @@ public class Parser
 			"expecting: '['",
 			"expecting: 'yes', 'no', 'start', 'if', '-', '!', '(', valor inteiro, valor real, id",
 			"expecting: 'answer', 'number', ']', id classe",
-			"expecting: 'finish', '+', '-', '*', '/', '=', '<', '>', 'and', 'or', '.', ']', ')', '|'",
+			"expecting: 'finish', 'else', '+', '-', '*', '/', '=', '<', '>', 'and', 'or', '.', ']', ')', '|'",
 			"expecting: 'yes', 'no', 'start', 'object', 'alterable', 'unalterable', 'if', '-', '!', '(', valor inteiro, valor real, id",
 			"expecting: '('",
 			"expecting: 'yes', 'no', 'start', '-', '!', '(', valor inteiro, valor real, id",
-			"expecting: 'finish', '+', '-', '*', '/', '=', '<', '>', 'and', 'or', '.', ponto acesso, '[', ']', ')', '|'",
-			"expecting: 'finish', 'or', '.', ']', ')', '|'",
-			"expecting: 'finish', 'and', 'or', '.', ']', ')', '|'",
-			"expecting: 'finish', '=', 'and', 'or', '.', ']', ')', '|'",
-			"expecting: 'finish', '=', '<', '>', 'and', 'or', '.', ']', ')', '|'",
-			"expecting: 'finish', '+', '-', '=', '<', '>', 'and', 'or', '.', ']', ')', '|'",
+			"expecting: 'finish', 'else', '+', '-', '*', '/', '=', '<', '>', 'and', 'or', '.', ponto acesso, '[', ']', ')', '|'",
+			"expecting: 'finish', 'else', 'or', '.', ']', ')', '|'",
+			"expecting: 'finish', 'else', 'and', 'or', '.', ']', ')', '|'",
+			"expecting: 'finish', 'else', '=', 'and', 'or', '.', ']', ')', '|'",
+			"expecting: 'finish', 'else', '=', '<', '>', 'and', 'or', '.', ']', ')', '|'",
+			"expecting: 'finish', 'else', '+', '-', '=', '<', '>', 'and', 'or', '.', ']', ')', '|'",
 			"expecting: 'start', 'in case that', 'as long as', '.', id",
 			"expecting: ']'",
 			"expecting: ']', '|'",
 			"expecting: ')'",
-			"expecting: 'finish', '+', '-', '*', '/', '=', '<', '>', 'and', 'or', '.', ponto acesso, '<<', '[', ']', ')', '|'",
+			"expecting: 'finish', 'else', '+', '-', '*', '/', '=', '<', '>', 'and', 'or', '.', ponto acesso, '<<', '[', ']', ')', '|'",
 			"expecting: 'yes', 'no', 'start', 'if', '-', '!', ']', '(', valor inteiro, valor real, id",
 			"expecting: 'yes', 'no', 'start', 'if', '-', '!', '.', '(', valor inteiro, valor real, id",
 			"expecting: 'start', 'finish', 'in case that', 'as long as', 'object', 'alterable', 'unalterable', id",
 			"expecting: ponto acesso, '<<', '['",
-			"expecting: 'start', 'finish', 'in case that', 'as long as', 'function', 'procedure', 'else', '.', '>>', ']', ')', '|', id",
-			"expecting: 'start', 'finish', 'in case that', 'otherwise', 'as long as', 'function', 'procedure', 'else', '.', '>>', ']', ')', '|', id",
+			"expecting: 'start', 'finish', 'in case that', 'as long as', 'function', 'procedure', '>>', id",
+			"expecting: 'start', 'finish', 'in case that', 'otherwise', 'as long as', 'function', 'procedure', '>>', id",
 			"expecting: 'start', 'finish', 'in case that', 'as long as', id",
-			"expecting: 'start', 'in case that', 'as long as', id",
 			"expecting: 'else'",
-			"expecting: 'finish', '.', ']', ')', '|'",
+			"expecting: 'start', 'in case that', 'as long as', id",
+			"expecting: 'finish', 'else', '.', ']', ')', '|'",
         };*/
     private static int[] errors;
 /*      {
-			0, 1, 2, 0, 3, 4, 4, 5, 1, 4, 0, 0, 3, 3, 4, 6, 1, 7, 1, 3, 0, 3, 1, 8, 8, 9, 10, 10, 10, 10, 10, 3, 11, 12, 12, 12, 12, 12, 13, 12, 14, 15, 9, 9, 9, 9, 10, 16, 17, 17, 12, 12, 12, 18, 12, 4, 9, 10, 19, 19, 18, 20, 18, 21, 21, 22, 23, 24, 24, 19, 21, 21, 25, 21, 21, 21, 16, 26, 27, 28, 29, 30, 21, 21, 21, 16, 20, 31, 12, 32, 33, 20, 19, 19, 21, 21, 34, 35, 36, 35, 10, 24, 24, 24, 24, 24, 24, 24, 24, 24, 10, 37, 32, 38, 23, 23, 9, 39, 9, 40, 40, 41, 16, 17, 33, 31, 13, 33, 33, 31, 32, 15, 34, 21, 21, 32, 33, 35, 36, 27, 28, 29, 30, 30, 21, 21, 21, 21, 9, 16, 37, 42, 19, 19, 19, 41, 19, 9, 9, 33, 33, 9, 9, 31, 21, 43, 21, 19, 33, 33, 21, 32, 9, 9, 16, 42, 15, 42, 34, 34, 16, 16, 9, 9, 44, 33, 33, 21, 9, 41, 42, 43, 43, 41, 41, 43, 40, 41, 41, 40, 45, 43, 41, 40, 
+			0, 1, 2, 0, 3, 4, 4, 5, 1, 4, 0, 0, 3, 3, 4, 6, 1, 7, 1, 3, 0, 3, 1, 8, 8, 9, 10, 10, 10, 10, 10, 3, 11, 12, 12, 12, 12, 12, 13, 12, 14, 15, 9, 9, 9, 9, 10, 16, 17, 17, 12, 12, 12, 18, 12, 4, 9, 10, 19, 19, 18, 20, 18, 21, 21, 22, 23, 24, 24, 19, 21, 21, 25, 21, 21, 21, 16, 26, 27, 28, 29, 30, 21, 21, 21, 16, 20, 31, 12, 32, 33, 20, 19, 19, 21, 21, 34, 35, 36, 35, 10, 24, 24, 24, 24, 24, 24, 24, 24, 24, 10, 37, 32, 38, 23, 23, 9, 39, 9, 40, 40, 41, 16, 17, 33, 31, 13, 33, 33, 31, 32, 15, 34, 21, 21, 32, 33, 35, 36, 27, 28, 29, 30, 30, 21, 21, 21, 21, 9, 16, 37, 42, 19, 19, 19, 41, 19, 9, 9, 33, 33, 9, 9, 31, 21, 19, 21, 19, 33, 33, 21, 32, 9, 9, 16, 42, 15, 42, 34, 34, 16, 16, 9, 9, 43, 33, 33, 21, 9, 41, 42, 44, 44, 41, 41, 19, 40, 41, 41, 40, 45, 44, 41, 40, 
         };*/
 
     static 

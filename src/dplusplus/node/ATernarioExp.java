@@ -11,9 +11,9 @@ public final class ATernarioExp extends PExp
     private TParenteseEsq _parenteseEsq_;
     private PExp _condicao_;
     private TParenteseDir _parenteseDir_;
-    private PComando _comandoIf_;
+    private PExp _expIf_;
     private TElse _else_;
-    private PComando _comandoElse_;
+    private PExp _expElse_;
 
     public ATernarioExp()
     {
@@ -25,9 +25,9 @@ public final class ATernarioExp extends PExp
         @SuppressWarnings("hiding") TParenteseEsq _parenteseEsq_,
         @SuppressWarnings("hiding") PExp _condicao_,
         @SuppressWarnings("hiding") TParenteseDir _parenteseDir_,
-        @SuppressWarnings("hiding") PComando _comandoIf_,
+        @SuppressWarnings("hiding") PExp _expIf_,
         @SuppressWarnings("hiding") TElse _else_,
-        @SuppressWarnings("hiding") PComando _comandoElse_)
+        @SuppressWarnings("hiding") PExp _expElse_)
     {
         // Constructor
         setIf(_if_);
@@ -38,11 +38,11 @@ public final class ATernarioExp extends PExp
 
         setParenteseDir(_parenteseDir_);
 
-        setComandoIf(_comandoIf_);
+        setExpIf(_expIf_);
 
         setElse(_else_);
 
-        setComandoElse(_comandoElse_);
+        setExpElse(_expElse_);
 
     }
 
@@ -54,9 +54,9 @@ public final class ATernarioExp extends PExp
             cloneNode(this._parenteseEsq_),
             cloneNode(this._condicao_),
             cloneNode(this._parenteseDir_),
-            cloneNode(this._comandoIf_),
+            cloneNode(this._expIf_),
             cloneNode(this._else_),
-            cloneNode(this._comandoElse_));
+            cloneNode(this._expElse_));
     }
 
     @Override
@@ -165,16 +165,16 @@ public final class ATernarioExp extends PExp
         this._parenteseDir_ = node;
     }
 
-    public PComando getComandoIf()
+    public PExp getExpIf()
     {
-        return this._comandoIf_;
+        return this._expIf_;
     }
 
-    public void setComandoIf(PComando node)
+    public void setExpIf(PExp node)
     {
-        if(this._comandoIf_ != null)
+        if(this._expIf_ != null)
         {
-            this._comandoIf_.parent(null);
+            this._expIf_.parent(null);
         }
 
         if(node != null)
@@ -187,7 +187,7 @@ public final class ATernarioExp extends PExp
             node.parent(this);
         }
 
-        this._comandoIf_ = node;
+        this._expIf_ = node;
     }
 
     public TElse getElse()
@@ -215,16 +215,16 @@ public final class ATernarioExp extends PExp
         this._else_ = node;
     }
 
-    public PComando getComandoElse()
+    public PExp getExpElse()
     {
-        return this._comandoElse_;
+        return this._expElse_;
     }
 
-    public void setComandoElse(PComando node)
+    public void setExpElse(PExp node)
     {
-        if(this._comandoElse_ != null)
+        if(this._expElse_ != null)
         {
-            this._comandoElse_.parent(null);
+            this._expElse_.parent(null);
         }
 
         if(node != null)
@@ -237,7 +237,7 @@ public final class ATernarioExp extends PExp
             node.parent(this);
         }
 
-        this._comandoElse_ = node;
+        this._expElse_ = node;
     }
 
     @Override
@@ -248,9 +248,9 @@ public final class ATernarioExp extends PExp
             + toString(this._parenteseEsq_)
             + toString(this._condicao_)
             + toString(this._parenteseDir_)
-            + toString(this._comandoIf_)
+            + toString(this._expIf_)
             + toString(this._else_)
-            + toString(this._comandoElse_);
+            + toString(this._expElse_);
     }
 
     @Override
@@ -281,9 +281,9 @@ public final class ATernarioExp extends PExp
             return;
         }
 
-        if(this._comandoIf_ == child)
+        if(this._expIf_ == child)
         {
-            this._comandoIf_ = null;
+            this._expIf_ = null;
             return;
         }
 
@@ -293,9 +293,9 @@ public final class ATernarioExp extends PExp
             return;
         }
 
-        if(this._comandoElse_ == child)
+        if(this._expElse_ == child)
         {
-            this._comandoElse_ = null;
+            this._expElse_ = null;
             return;
         }
 
@@ -330,9 +330,9 @@ public final class ATernarioExp extends PExp
             return;
         }
 
-        if(this._comandoIf_ == oldChild)
+        if(this._expIf_ == oldChild)
         {
-            setComandoIf((PComando) newChild);
+            setExpIf((PExp) newChild);
             return;
         }
 
@@ -342,9 +342,9 @@ public final class ATernarioExp extends PExp
             return;
         }
 
-        if(this._comandoElse_ == oldChild)
+        if(this._expElse_ == oldChild)
         {
-            setComandoElse((PComando) newChild);
+            setExpElse((PExp) newChild);
             return;
         }
 

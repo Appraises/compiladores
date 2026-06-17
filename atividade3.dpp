@@ -32,7 +32,7 @@ family Gato start
 
     -- 69 eh azunhou
     procedure azunhar [] start
-        alterable number six_seven_interior << if (raiva = 67) six_seven_interior << -1. else six_seven_interior << raiva. .
+        alterable number six_seven_interior << if (raiva = 67) -1 else raiva.
         in case that (!(six_seven_interior < 67)) start
             io.show[69].
         finish

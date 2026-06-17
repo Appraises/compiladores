@@ -1405,17 +1405,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getParenteseDir().apply(this);
         }
-        if(node.getComandoIf() != null)
+        if(node.getExpIf() != null)
         {
-            node.getComandoIf().apply(this);
+            node.getExpIf().apply(this);
         }
         if(node.getElse() != null)
         {
             node.getElse().apply(this);
         }
-        if(node.getComandoElse() != null)
+        if(node.getExpElse() != null)
         {
-            node.getComandoElse().apply(this);
+            node.getExpElse().apply(this);
         }
         outATernarioExp(node);
     }

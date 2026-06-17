@@ -158,7 +158,7 @@ Productions
     bloco_exp = start_block atributos exp finish_block;
 
     exp = 
-        {ternario} if parentese_esq [condicao]:exp parentese_dir [comando_if]:comando else [comando_else]:comando |
+        {ternario} if parentese_esq [condicao]:exp parentese_dir [exp_if]:exp else [exp_else]:exp |
         {or} exp_or;
 
     exp_or = 
