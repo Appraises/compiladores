@@ -1,3 +1,5 @@
+family Inimigo derives from Entidade.
+
 -- classe base
 family Entidade start
     alterable number vida << 100.
@@ -6,7 +8,7 @@ family Entidade start
 finish
 
 --classe filha
-family Inimigo derives from Entidade start
+family Inimigo start
     unalterable number dano_base << 15.
     alterable answer enfurecido << no.
 

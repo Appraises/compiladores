@@ -47,7 +47,7 @@ Tokens
     ou_logico = 'or';
     
     ponto = '.';
-    ponto_acesso = '.' (letra_min | letra_mai) (letra_min | letra_mai | '_')*;
+    seta_acesso = '->';
     
     atribuicao = '<<';
     ponto_entrada = '>>';
@@ -147,13 +147,15 @@ Productions
     
     lista_comandos = comando*;
 
-    chamada = id ponto_acesso* colchete_esq lista_exp? colchete_dir;
+    chamada = id acesso_extra* colchete_esq lista_exp? colchete_dir;
     
     lista_exp = exp exp_extra*;
     
     exp_extra = pipe exp;
 
-    acesso = id ponto_acesso+;
+    acesso_extra = seta_acesso id;
+
+    acesso = id acesso_extra+;
 
     bloco_exp = start_block atributos exp finish_block;
 

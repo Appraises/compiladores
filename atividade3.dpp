@@ -27,18 +27,18 @@ family Gato start
 
     --considere 67 como o miau
     procedure som [] start
-        io.show[67].
+        io->show[67].
     finish
 
     -- 69 eh azunhou
     procedure azunhar [] start
         alterable number six_seven_interior << if (raiva = 67) -1 else raiva.
         in case that (!(six_seven_interior < 67)) start
-            io.show[69].
+            io->show[69].
         finish
         otherwise in case that (six_seven_interior = -1)
         start
-            io.show[six_seven_interior].
+            io->show[six_seven_interior].
         finish
     finish
 finish
@@ -49,13 +49,13 @@ family Cachorro start
 
     -- considere 420 como auau
     procedure som [] start
-        io.show[420].
+        io->show[420].
     finish
 
     -- 0 eh fuga
     procedure fuga [] start
         in case that (medo > 67) start
-            io.show[0].
+            io->show[0].
         finish
     finish
 finish
@@ -73,7 +73,7 @@ family Veterinario start
     alterable number temp_proced << 0.
     alterable number temp_animal << 0.
 
-    unalterable number qtd_animais << io.capture[].
+    unalterable number qtd_animais << io->capture[].
     alterable number contador << 0.
 
     >> procedure principal []
@@ -86,31 +86,31 @@ family Veterinario start
                 a + 5
             finish
 
-            temp_peso << io.capture[].
-            temp_proced << io.capture[].
-            temp_animal << io.capture[].
+            temp_peso << io->capture[].
+            temp_proced << io->capture[].
+            temp_animal << io->capture[].
 
-            rebolation.raiva << io.capture[].
-            coragem.medo << io.capture[].
+            rebolation->raiva << io->capture[].
+            coragem->medo << io->capture[].
 
-            rebolation.azunhar[].
-            coragem.fuga[].
+            rebolation->azunhar[].
+            coragem->fuga[].
 
             in case that (temp_animal = 1)
             start
-                coragem.definindo[temp_peso | temp_proced].
-                in case that (coragem.procedimento = 1) coragem.valor << banho.
-                otherwise coragem.valor << consulta.
-                coragem.som[].
-                io.show[coragem.valor].
+                coragem->definindo[temp_peso | temp_proced].
+                in case that (coragem->procedimento = 1) coragem->valor << banho.
+                otherwise coragem->valor << consulta.
+                coragem->som[].
+                io->show[coragem->valor].
             finish
             otherwise
             start
-                rebolation.definindo[temp_peso | temp_proced].
-                in case that (rebolation.procedimento = 1) rebolation.valor << banho.
-                otherwise rebolation.valor << consulta.
-                rebolation.som[].
-                io.show[rebolation.valor].
+                rebolation->definindo[temp_peso | temp_proced].
+                in case that (rebolation->procedimento = 1) rebolation->valor << banho.
+                otherwise rebolation->valor << consulta.
+                rebolation->som[].
+                io->show[rebolation->valor].
             finish
 
             contador << contador + 1.
