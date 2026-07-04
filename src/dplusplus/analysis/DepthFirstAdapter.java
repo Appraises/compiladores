@@ -1240,8 +1240,8 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getId().apply(this);
         }
         {
-            List<TPontoAcesso> copy = new ArrayList<TPontoAcesso>(node.getPontoAcesso());
-            for(TPontoAcesso e : copy)
+            List<PAcessoExtra> copy = new ArrayList<PAcessoExtra>(node.getAcessoExtra());
+            for(PAcessoExtra e : copy)
             {
                 e.apply(this);
             }
@@ -1314,6 +1314,31 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAExpExtra(node);
     }
 
+    public void inAAcessoExtra(AAcessoExtra node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAcessoExtra(AAcessoExtra node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAcessoExtra(AAcessoExtra node)
+    {
+        inAAcessoExtra(node);
+        if(node.getSetaAcesso() != null)
+        {
+            node.getSetaAcesso().apply(this);
+        }
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        outAAcessoExtra(node);
+    }
+
     public void inAAcesso(AAcesso node)
     {
         defaultIn(node);
@@ -1333,8 +1358,8 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getId().apply(this);
         }
         {
-            List<TPontoAcesso> copy = new ArrayList<TPontoAcesso>(node.getPontoAcesso());
-            for(TPontoAcesso e : copy)
+            List<PAcessoExtra> copy = new ArrayList<PAcessoExtra>(node.getAcessoExtra());
+            for(PAcessoExtra e : copy)
             {
                 e.apply(this);
             }

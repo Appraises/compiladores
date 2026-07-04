@@ -9,7 +9,7 @@ import dplusplus.analysis.*;
 public final class AAcesso extends PAcesso
 {
     private TId _id_;
-    private final LinkedList<TPontoAcesso> _pontoAcesso_ = new LinkedList<TPontoAcesso>();
+    private final LinkedList<PAcessoExtra> _acessoExtra_ = new LinkedList<PAcessoExtra>();
 
     public AAcesso()
     {
@@ -18,12 +18,12 @@ public final class AAcesso extends PAcesso
 
     public AAcesso(
         @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") List<?> _pontoAcesso_)
+        @SuppressWarnings("hiding") List<?> _acessoExtra_)
     {
         // Constructor
         setId(_id_);
 
-        setPontoAcesso(_pontoAcesso_);
+        setAcessoExtra(_acessoExtra_);
 
     }
 
@@ -32,7 +32,7 @@ public final class AAcesso extends PAcesso
     {
         return new AAcesso(
             cloneNode(this._id_),
-            cloneList(this._pontoAcesso_));
+            cloneList(this._acessoExtra_));
     }
 
     @Override
@@ -66,29 +66,29 @@ public final class AAcesso extends PAcesso
         this._id_ = node;
     }
 
-    public LinkedList<TPontoAcesso> getPontoAcesso()
+    public LinkedList<PAcessoExtra> getAcessoExtra()
     {
-        return this._pontoAcesso_;
+        return this._acessoExtra_;
     }
 
-    public void setPontoAcesso(List<?> list)
+    public void setAcessoExtra(List<?> list)
     {
-        for(TPontoAcesso e : this._pontoAcesso_)
+        for(PAcessoExtra e : this._acessoExtra_)
         {
             e.parent(null);
         }
-        this._pontoAcesso_.clear();
+        this._acessoExtra_.clear();
 
         for(Object obj_e : list)
         {
-            TPontoAcesso e = (TPontoAcesso) obj_e;
+            PAcessoExtra e = (PAcessoExtra) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._pontoAcesso_.add(e);
+            this._acessoExtra_.add(e);
         }
     }
 
@@ -97,7 +97,7 @@ public final class AAcesso extends PAcesso
     {
         return ""
             + toString(this._id_)
-            + toString(this._pontoAcesso_);
+            + toString(this._acessoExtra_);
     }
 
     @Override
@@ -110,7 +110,7 @@ public final class AAcesso extends PAcesso
             return;
         }
 
-        if(this._pontoAcesso_.remove(child))
+        if(this._acessoExtra_.remove(child))
         {
             return;
         }
@@ -128,13 +128,13 @@ public final class AAcesso extends PAcesso
             return;
         }
 
-        for(ListIterator<TPontoAcesso> i = this._pontoAcesso_.listIterator(); i.hasNext();)
+        for(ListIterator<PAcessoExtra> i = this._acessoExtra_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((TPontoAcesso) newChild);
+                    i.set((PAcessoExtra) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

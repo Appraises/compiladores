@@ -17,7 +17,7 @@ public class Main {
         if (args.length == 0) {
             System.out.println("Forneca o caminho do arquivo .dpp como argumento.");
             System.out.println("Usando atividade3.dpp como arquivo padrao para teste.");
-            args = new String[] { "atividade3.dpp" };
+            args = new String[] { "teste.dpp" };
         }
 
         try (PushbackReader leitor = new PushbackReader(new FileReader(args[0]), 1024)) {

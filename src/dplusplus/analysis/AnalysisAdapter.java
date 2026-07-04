@@ -327,6 +327,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAAcessoExtra(AAcessoExtra node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAAcesso(AAcesso node)
     {
         defaultCase(node);
@@ -687,7 +693,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTPontoAcesso(TPontoAcesso node)
+    public void caseTSetaAcesso(TSetaAcesso node)
     {
         defaultCase(node);
     }
