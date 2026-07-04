@@ -75,133 +75,237 @@ Ignored Tokens
     comentario_bloco;
     
 Productions
+    programa {-> programa} = 
+        genealogia? def_classe+ {-> New programa(genealogia.genealogia, [def_classe])};
+
+    genealogia {-> genealogia} = 
+        relacao lista_relacoes* ponto {-> New genealogia([relacao, lista_relacoes.relacao])};
+
+    lista_relacoes {-> relacao} = 
+        ampersand relacao {-> relacao};
+
+    relacao {-> relacao} = 
+        family [filha]:id_classe derives_from [mae]:id_classe {-> New relacao(filha, mae)};
+
+    def_classe {-> def_classe} = 
+        family id_classe start_block atributos metodos finish_block 
+        {-> New def_classe(id_classe, [atributos.declaracao], [metodos.metodo])};
+
+    atributos {-> declaracao*} = 
+        declaracao* {-> [declaracao]};
+
+    declaracao {-> declaracao} = 
+        {obj} dec_obj {-> dec_obj.declaracao} | 
+        {var} dec_var {-> dec_var.declaracao} | 
+        {cons} dec_cons {-> dec_cons.declaracao};
+
+    dec_obj {-> declaracao} = 
+        object id_classe id ponto {-> New declaracao.obj(id_classe, id)};
+
+    dec_var {-> declaracao} = 
+        alterable tipo_primitivo id atribuicao exp ponto {-> New declaracao.var(tipo_primitivo, id, exp)};
+
+    dec_cons {-> declaracao} = 
+        unalterable tipo_primitivo id atribuicao exp ponto {-> New declaracao.cons(tipo_primitivo, id, exp)};
+
+    tipo_primitivo {-> tipo_primitivo} = 
+        {answer} answer {-> New tipo_primitivo.answer()} | 
+        {number} number {-> New tipo_primitivo.number()};
+
+    metodos {-> metodo*} = 
+        metodo* {-> [metodo]};
+
+    metodo {-> metodo} = 
+        {procedimento} dec_procedimento {-> dec_procedimento.metodo} |
+        {funcao} dec_funcao {-> dec_funcao.metodo};
+
+    dec_procedimento {-> metodo} = 
+        {com_comando} ponto_entrada? procedure id colchete_esq lista_parametros? colchete_dir comando 
+            {-> New metodo.procedimento_cmd(ponto_entrada, id, [lista_parametros.parametro], comando)} |
+        {vazio} ponto_entrada? procedure id colchete_esq lista_parametros? colchete_dir ponto 
+            {-> New metodo.procedimento_vazio(ponto_entrada, id, [lista_parametros.parametro])};
+
+    dec_funcao {-> metodo} = 
+        {com_exp} function tipo id colchete_esq lista_parametros? colchete_dir exp ponto 
+            {-> New metodo.funcao_exp(tipo, id, [lista_parametros.parametro], exp)} |
+        {vazia} function tipo id colchete_esq lista_parametros? colchete_dir ponto 
+            {-> New metodo.funcao_vazia(tipo, id, [lista_parametros.parametro])};
+
+    tipo {-> tipo} = 
+        {classe} id_classe {-> New tipo.classe(id_classe)} |
+        {primitivo} tipo_primitivo {-> New tipo.primitivo(tipo_primitivo)};
+
+    lista_parametros {-> parametro*} = 
+        parametro parametro_extra* {-> [parametro, parametro_extra.parametro]};
+
+    parametro_extra {-> parametro} = 
+        pipe parametro {-> parametro};
+
+    parametro {-> parametro} = 
+        tipo id {-> New parametro(tipo, id)};
+
+    comando {-> comando} = 
+        {fechado} comando_fechado {-> comando_fechado.comando} |
+        {aberto} comando_aberto {-> comando_aberto.comando};
+
+    comando_fechado {-> comando} = 
+        {condicional_else} in_case_that parentese_esq exp parentese_dir [comando_if]:comando_fechado otherwise [comando_else]:comando_fechado 
+            {-> New comando.condicional(exp, comando_if.comando, comando_else.comando)} |
+        {laco} as_long_as parentese_esq exp parentese_dir comando_fechado 
+            {-> New comando.laco(exp, comando_fechado.comando)} |
+        {atribuicao} id atribuicao exp ponto 
+            {-> New comando.atribuicao(id, exp)} |
+        {atribuicao_obj} acesso atribuicao exp ponto 
+            {-> New comando.atribuicao_obj(acesso, exp)} |
+        {bloco} bloco 
+            {-> New comando.bloco(bloco)} |
+        {chamada} chamada ponto 
+            {-> New comando.chamada(chamada)};
+
+    comando_aberto {-> comando} = 
+        {condicional} in_case_that parentese_esq exp parentese_dir comando 
+            {-> New comando.condicional(exp, comando, Null)} |
+        {condicional_else} in_case_that parentese_esq exp parentese_dir [comando_if]:comando_fechado otherwise [comando_else]:comando_aberto 
+            {-> New comando.condicional(exp, comando_if.comando, comando_else.comando)} |
+        {laco} as_long_as parentese_esq exp parentese_dir comando_aberto 
+            {-> New comando.laco(exp, comando_aberto.comando)};
+
+    bloco {-> bloco} = 
+        start_block atributos lista_comandos finish_block {-> New bloco([atributos.declaracao], [lista_comandos.comando])};
+    
+    lista_comandos {-> comando*} = 
+        comando* {-> [comando]};
+
+    chamada {-> chamada} = 
+        id acesso_extra* colchete_esq lista_exp? colchete_dir {-> New chamada(id, [acesso_extra.id], [lista_exp.exp])};
+    
+    lista_exp {-> exp*} = 
+        exp exp_extra* {-> [exp, exp_extra.exp]};
+    
+    exp_extra {-> exp} = 
+        pipe exp {-> exp};
+
+    acesso_extra {-> id} = 
+        seta_acesso id {-> id};
+
+    acesso {-> acesso} = 
+        id acesso_extra+ {-> New acesso(id, [acesso_extra.id])};
+
+    bloco_exp {-> bloco_exp} = 
+        start_block atributos exp finish_block {-> New bloco_exp([atributos.declaracao], exp)};
+
+    exp {-> exp} = 
+        {ternario} if parentese_esq [condicao]:exp parentese_dir [exp_if]:exp else [exp_else]:exp 
+            {-> New exp.ternario(condicao, exp_if, exp_else)} |
+        {or} exp_or {-> exp_or.exp};
+
+    exp_or {-> exp} = 
+        {or} exp_or ou_logico exp_and {-> New exp.or(exp_or.exp, exp_and.exp)} |
+        {and} exp_and {-> exp_and.exp};
+
+    exp_and {-> exp} = 
+        {and} exp_and e_logico exp_igual {-> New exp.and(exp_and.exp, exp_igual.exp)} |
+        {igual} exp_igual {-> exp_igual.exp};
+
+    exp_igual {-> exp} = 
+        {igual} exp_igual igual exp_relacional {-> New exp.igual(exp_igual.exp, exp_relacional.exp)} |
+        {relacional} exp_relacional {-> exp_relacional.exp};
+
+    exp_relacional {-> exp} = 
+        {menor} exp_relacional menor_que exp_soma {-> New exp.menor(exp_relacional.exp, exp_soma.exp)} |
+        {maior} exp_relacional maior_que exp_soma {-> New exp.maior(exp_relacional.exp, exp_soma.exp)} |
+        {soma} exp_soma {-> exp_soma.exp};
+
+    exp_soma {-> exp} = 
+        {soma} exp_soma soma exp_mult {-> New exp.soma(exp_soma.exp, exp_mult.exp)} |
+        {subtracao} exp_soma subtracao exp_mult {-> New exp.subtracao(exp_soma.exp, exp_mult.exp)} |
+        {mult} exp_mult {-> exp_mult.exp};
+
+    exp_mult {-> exp} = 
+        {mult} exp_mult multiplicacao exp_unaria {-> New exp.mult(exp_mult.exp, exp_unaria.exp)} |
+        {divisao} exp_mult divisao exp_unaria {-> New exp.divisao(exp_mult.exp, exp_unaria.exp)} |
+        {unaria} exp_unaria {-> exp_unaria.exp};
+
+    exp_unaria {-> exp} = 
+        {negacao} negacao exp_unaria {-> New exp.negacao(exp_unaria.exp)} |
+        {negativo} subtracao exp_unaria {-> New exp.negativo(exp_unaria.exp)} |
+        {termo} termo {-> termo.exp};
+
+    termo {-> exp} = 
+        {inteiro} valor_inteiro {-> New exp.inteiro(valor_inteiro)} |
+        {real} valor_real {-> New exp.real(valor_real)} |
+        {yes} yes {-> New exp.yes()} |
+        {no} no {-> New exp.no()} |
+        {id} id {-> New exp.id(id)} |
+        {acesso} acesso {-> New exp.acesso(acesso)} |
+        {chamada} chamada {-> New exp.chamada(chamada)} |
+        {bloco} bloco_exp {-> New exp.bloco_retorno(bloco_exp)} |
+        {parenteses} parentese_esq exp parentese_dir {-> exp.exp};
+                
+Abstract Syntax Tree
     programa = genealogia? def_classe+;
-
-    genealogia = relacao lista_relacoes* ponto;
-
-    lista_relacoes = ampersand relacao;
-
-    relacao = family [filha]:id_classe derives_from [mae]:id_classe;
-
-    def_classe = family id_classe start_block atributos metodos finish_block;
-
-    atributos = declaracao*;
+    
+    genealogia = relacao+;
+    
+    relacao = [filha]:id_classe [mae]:id_classe;
+    
+    def_classe = id_classe declaracao* metodo*;
 
     declaracao = 
-        {obj} dec_obj | 
-        {var} dec_var | 
-        {cons} dec_cons;
-
-    dec_obj = object id_classe id ponto;
-
-    dec_var = alterable tipo_primitivo id atribuicao exp ponto;
-
-    dec_cons = unalterable tipo_primitivo id atribuicao exp ponto;
+        {obj} id_classe id | 
+        {var} tipo_primitivo id exp | 
+        {cons} tipo_primitivo id exp;
 
     tipo_primitivo = 
-        {answer} answer | 
-        {number} number;
-
-    metodos = metodo*;
+        {answer} | 
+        {number};
 
     metodo = 
-        {procedimento} dec_procedimento |
-        {funcao} dec_funcao;
-
-    dec_procedimento = 
-        {com_comando} ponto_entrada? procedure id colchete_esq lista_parametros? colchete_dir comando |
-        {vazio} ponto_entrada? procedure id colchete_esq lista_parametros? colchete_dir ponto;
-
-    dec_funcao = 
-        {com_exp} function tipo id colchete_esq lista_parametros? colchete_dir exp ponto |
-        {vazia} function tipo id colchete_esq lista_parametros? colchete_dir ponto;
+        {procedimento_cmd} ponto_entrada? id parametro* comando |
+        {procedimento_vazio} ponto_entrada? id parametro* |
+        {funcao_exp} tipo id parametro* exp |
+        {funcao_vazia} tipo id parametro*;
 
     tipo = 
         {classe} id_classe |
         {primitivo} tipo_primitivo;
 
-    lista_parametros = parametro parametro_extra*;
-
-    parametro_extra = pipe parametro;
-
     parametro = tipo id;
 
     comando = 
-        {fechado} comando_fechado |
-        {aberto} comando_aberto;
-
-    comando_fechado = 
-        {condicional_else} in_case_that parentese_esq exp parentese_dir [comando_if]:comando_fechado otherwise [comando_else]:comando_fechado |
-        {laco} as_long_as parentese_esq exp parentese_dir comando_fechado |
-        {atribuicao} id atribuicao exp ponto |
-        {atribuicao_obj} acesso atribuicao exp ponto |
+        {condicional} exp [comando_if]:comando [comando_else]:comando? |
+        {laco} exp comando |
+        {atribuicao} id exp |
+        {atribuicao_obj} acesso exp |
         {bloco} bloco |
-        {chamada} chamada ponto;
+        {chamada} chamada;
 
-    comando_aberto = 
-        {condicional} in_case_that parentese_esq exp parentese_dir comando |
-        {condicional_else} in_case_that parentese_esq exp parentese_dir [comando_if]:comando_fechado otherwise [comando_else]:comando_aberto |
-        {laco} as_long_as parentese_esq exp parentese_dir comando_aberto;
+    bloco = declaracao* comando*;
 
-    bloco = start_block atributos lista_comandos finish_block;
-    
-    lista_comandos = comando*;
+    chamada = [base]:id [acessos]:id* [argumentos]:exp*;
 
-    chamada = id acesso_extra* colchete_esq lista_exp? colchete_dir;
-    
-    lista_exp = exp exp_extra*;
-    
-    exp_extra = pipe exp;
+    acesso = [base]:id [acessos]:id+;
 
-    acesso_extra = seta_acesso id;
-
-    acesso = id acesso_extra+;
-
-    bloco_exp = start_block atributos exp finish_block;
+    bloco_exp = declaracao* exp;
 
     exp = 
-        {ternario} if parentese_esq [condicao]:exp parentese_dir [exp_if]:exp else [exp_else]:exp |
-        {or} exp_or;
-
-    exp_or = 
-        {or} exp_or ou_logico exp_and |
-        {and} exp_and;
-
-    exp_and = 
-        {and} exp_and e_logico exp_igual |
-        {igual} exp_igual;
-
-    exp_igual = 
-        {igual} exp_igual igual exp_relacional |
-        {relacional} exp_relacional;
-
-    exp_relacional = 
-        {menor} exp_relacional menor_que exp_soma |
-        {maior} exp_relacional maior_que exp_soma |
-        {soma} exp_soma;
-
-    exp_soma = 
-        {soma} exp_soma soma exp_mult |
-        {subtracao} exp_soma subtracao exp_mult |
-        {mult} exp_mult;
-
-    exp_mult = 
-        {mult} exp_mult multiplicacao exp_unaria |
-        {divisao} exp_mult divisao exp_unaria |
-        {unaria} exp_unaria;
-
-    exp_unaria = 
-        {negacao} negacao exp_unaria |
-        {negativo} subtracao exp_unaria |
-        {termo} termo;
-
-    termo = 
+        {ternario} [condicao]:exp [exp_if]:exp [exp_else]:exp |
+        {or} [esq]:exp [dir]:exp |
+        {and} [esq]:exp [dir]:exp |
+        {igual} [esq]:exp [dir]:exp |
+        {menor} [esq]:exp [dir]:exp |
+        {maior} [esq]:exp [dir]:exp |
+        {soma} [esq]:exp [dir]:exp |
+        {subtracao} [esq]:exp [dir]:exp |
+        {mult} [esq]:exp [dir]:exp |
+        {divisao} [esq]:exp [dir]:exp |
+        {negacao} exp |
+        {negativo} exp |
         {inteiro} valor_inteiro |
         {real} valor_real |
-        {yes} yes |
-        {no} no |
+        {yes} |
+        {no} |
         {id} id |
         {acesso} acesso |
         {chamada} chamada |
-        {bloco} bloco_exp |
-        {parenteses} parentese_esq exp parentese_dir;
+       {bloco_retorno} bloco_exp;

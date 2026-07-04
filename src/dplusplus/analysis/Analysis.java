@@ -54,6 +54,7 @@ public interface Analysis extends Switch
     void caseAChamada(AChamada node);
     void caseAListaExp(AListaExp node);
     void caseAExpExtra(AExpExtra node);
+    void caseAAcessoExtra(AAcessoExtra node);
     void caseAAcesso(AAcesso node);
     void caseABlocoExp(ABlocoExp node);
     void caseATernarioExp(ATernarioExp node);
@@ -115,7 +116,7 @@ public interface Analysis extends Switch
     void caseTELogico(TELogico node);
     void caseTOuLogico(TOuLogico node);
     void caseTPonto(TPonto node);
-    void caseTPontoAcesso(TPontoAcesso node);
+    void caseTSetaAcesso(TSetaAcesso node);
     void caseTAtribuicao(TAtribuicao node);
     void caseTPontoEntrada(TPontoEntrada node);
     void caseTColcheteEsq(TColcheteEsq node);

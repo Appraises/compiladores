@@ -1254,9 +1254,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getColcheteEsq().apply(this);
         }
         {
-            List<TPontoAcesso> copy = new ArrayList<TPontoAcesso>(node.getPontoAcesso());
+            List<PAcessoExtra> copy = new ArrayList<PAcessoExtra>(node.getAcessoExtra());
             Collections.reverse(copy);
-            for(TPontoAcesso e : copy)
+            for(PAcessoExtra e : copy)
             {
                 e.apply(this);
             }
@@ -1322,6 +1322,31 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAExpExtra(node);
     }
 
+    public void inAAcessoExtra(AAcessoExtra node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAcessoExtra(AAcessoExtra node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAcessoExtra(AAcessoExtra node)
+    {
+        inAAcessoExtra(node);
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        if(node.getSetaAcesso() != null)
+        {
+            node.getSetaAcesso().apply(this);
+        }
+        outAAcessoExtra(node);
+    }
+
     public void inAAcesso(AAcesso node)
     {
         defaultIn(node);
@@ -1337,9 +1362,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     {
         inAAcesso(node);
         {
-            List<TPontoAcesso> copy = new ArrayList<TPontoAcesso>(node.getPontoAcesso());
+            List<PAcessoExtra> copy = new ArrayList<PAcessoExtra>(node.getAcessoExtra());
             Collections.reverse(copy);
-            for(TPontoAcesso e : copy)
+            for(PAcessoExtra e : copy)
             {
                 e.apply(this);
             }
