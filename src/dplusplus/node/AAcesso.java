@@ -8,8 +8,8 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AAcesso extends PAcesso
 {
-    private TId _id_;
-    private final LinkedList<PAcessoExtra> _acessoExtra_ = new LinkedList<PAcessoExtra>();
+    private TId _base_;
+    private final LinkedList<TId> _acessos_ = new LinkedList<TId>();
 
     public AAcesso()
     {
@@ -17,13 +17,13 @@ public final class AAcesso extends PAcesso
     }
 
     public AAcesso(
-        @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") List<?> _acessoExtra_)
+        @SuppressWarnings("hiding") TId _base_,
+        @SuppressWarnings("hiding") List<?> _acessos_)
     {
         // Constructor
-        setId(_id_);
+        setBase(_base_);
 
-        setAcessoExtra(_acessoExtra_);
+        setAcessos(_acessos_);
 
     }
 
@@ -31,8 +31,8 @@ public final class AAcesso extends PAcesso
     public Object clone()
     {
         return new AAcesso(
-            cloneNode(this._id_),
-            cloneList(this._acessoExtra_));
+            cloneNode(this._base_),
+            cloneList(this._acessos_));
     }
 
     @Override
@@ -41,16 +41,16 @@ public final class AAcesso extends PAcesso
         ((Analysis) sw).caseAAcesso(this);
     }
 
-    public TId getId()
+    public TId getBase()
     {
-        return this._id_;
+        return this._base_;
     }
 
-    public void setId(TId node)
+    public void setBase(TId node)
     {
-        if(this._id_ != null)
+        if(this._base_ != null)
         {
-            this._id_.parent(null);
+            this._base_.parent(null);
         }
 
         if(node != null)
@@ -63,32 +63,32 @@ public final class AAcesso extends PAcesso
             node.parent(this);
         }
 
-        this._id_ = node;
+        this._base_ = node;
     }
 
-    public LinkedList<PAcessoExtra> getAcessoExtra()
+    public LinkedList<TId> getAcessos()
     {
-        return this._acessoExtra_;
+        return this._acessos_;
     }
 
-    public void setAcessoExtra(List<?> list)
+    public void setAcessos(List<?> list)
     {
-        for(PAcessoExtra e : this._acessoExtra_)
+        for(TId e : this._acessos_)
         {
             e.parent(null);
         }
-        this._acessoExtra_.clear();
+        this._acessos_.clear();
 
         for(Object obj_e : list)
         {
-            PAcessoExtra e = (PAcessoExtra) obj_e;
+            TId e = (TId) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._acessoExtra_.add(e);
+            this._acessos_.add(e);
         }
     }
 
@@ -96,21 +96,21 @@ public final class AAcesso extends PAcesso
     public String toString()
     {
         return ""
-            + toString(this._id_)
-            + toString(this._acessoExtra_);
+            + toString(this._base_)
+            + toString(this._acessos_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._id_ == child)
+        if(this._base_ == child)
         {
-            this._id_ = null;
+            this._base_ = null;
             return;
         }
 
-        if(this._acessoExtra_.remove(child))
+        if(this._acessos_.remove(child))
         {
             return;
         }
@@ -122,19 +122,19 @@ public final class AAcesso extends PAcesso
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._id_ == oldChild)
+        if(this._base_ == oldChild)
         {
-            setId((TId) newChild);
+            setBase((TId) newChild);
             return;
         }
 
-        for(ListIterator<PAcessoExtra> i = this._acessoExtra_.listIterator(); i.hasNext();)
+        for(ListIterator<TId> i = this._acessos_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PAcessoExtra) newChild);
+                    i.set((TId) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

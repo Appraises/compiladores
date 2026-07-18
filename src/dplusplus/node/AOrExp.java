@@ -7,7 +7,8 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AOrExp extends PExp
 {
-    private PExpOr _expOr_;
+    private PExp _esq_;
+    private PExp _dir_;
 
     public AOrExp()
     {
@@ -15,10 +16,13 @@ public final class AOrExp extends PExp
     }
 
     public AOrExp(
-        @SuppressWarnings("hiding") PExpOr _expOr_)
+        @SuppressWarnings("hiding") PExp _esq_,
+        @SuppressWarnings("hiding") PExp _dir_)
     {
         // Constructor
-        setExpOr(_expOr_);
+        setEsq(_esq_);
+
+        setDir(_dir_);
 
     }
 
@@ -26,7 +30,8 @@ public final class AOrExp extends PExp
     public Object clone()
     {
         return new AOrExp(
-            cloneNode(this._expOr_));
+            cloneNode(this._esq_),
+            cloneNode(this._dir_));
     }
 
     @Override
@@ -35,16 +40,16 @@ public final class AOrExp extends PExp
         ((Analysis) sw).caseAOrExp(this);
     }
 
-    public PExpOr getExpOr()
+    public PExp getEsq()
     {
-        return this._expOr_;
+        return this._esq_;
     }
 
-    public void setExpOr(PExpOr node)
+    public void setEsq(PExp node)
     {
-        if(this._expOr_ != null)
+        if(this._esq_ != null)
         {
-            this._expOr_.parent(null);
+            this._esq_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +62,55 @@ public final class AOrExp extends PExp
             node.parent(this);
         }
 
-        this._expOr_ = node;
+        this._esq_ = node;
+    }
+
+    public PExp getDir()
+    {
+        return this._dir_;
+    }
+
+    public void setDir(PExp node)
+    {
+        if(this._dir_ != null)
+        {
+            this._dir_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._dir_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expOr_);
+            + toString(this._esq_)
+            + toString(this._dir_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expOr_ == child)
+        if(this._esq_ == child)
         {
-            this._expOr_ = null;
+            this._esq_ = null;
+            return;
+        }
+
+        if(this._dir_ == child)
+        {
+            this._dir_ = null;
             return;
         }
 
@@ -84,9 +121,15 @@ public final class AOrExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expOr_ == oldChild)
+        if(this._esq_ == oldChild)
         {
-            setExpOr((PExpOr) newChild);
+            setEsq((PExp) newChild);
+            return;
+        }
+
+        if(this._dir_ == oldChild)
+        {
+            setDir((PExp) newChild);
             return;
         }
 

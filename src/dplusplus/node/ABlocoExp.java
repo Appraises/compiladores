@@ -2,15 +2,14 @@
 
 package dplusplus.node;
 
+import java.util.*;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ABlocoExp extends PBlocoExp
 {
-    private TStartBlock _startBlock_;
-    private PAtributos _atributos_;
+    private final LinkedList<PDeclaracao> _declaracao_ = new LinkedList<PDeclaracao>();
     private PExp _exp_;
-    private TFinishBlock _finishBlock_;
 
     public ABlocoExp()
     {
@@ -18,19 +17,13 @@ public final class ABlocoExp extends PBlocoExp
     }
 
     public ABlocoExp(
-        @SuppressWarnings("hiding") TStartBlock _startBlock_,
-        @SuppressWarnings("hiding") PAtributos _atributos_,
-        @SuppressWarnings("hiding") PExp _exp_,
-        @SuppressWarnings("hiding") TFinishBlock _finishBlock_)
+        @SuppressWarnings("hiding") List<?> _declaracao_,
+        @SuppressWarnings("hiding") PExp _exp_)
     {
         // Constructor
-        setStartBlock(_startBlock_);
-
-        setAtributos(_atributos_);
+        setDeclaracao(_declaracao_);
 
         setExp(_exp_);
-
-        setFinishBlock(_finishBlock_);
 
     }
 
@@ -38,10 +31,8 @@ public final class ABlocoExp extends PBlocoExp
     public Object clone()
     {
         return new ABlocoExp(
-            cloneNode(this._startBlock_),
-            cloneNode(this._atributos_),
-            cloneNode(this._exp_),
-            cloneNode(this._finishBlock_));
+            cloneList(this._declaracao_),
+            cloneNode(this._exp_));
     }
 
     @Override
@@ -50,54 +41,30 @@ public final class ABlocoExp extends PBlocoExp
         ((Analysis) sw).caseABlocoExp(this);
     }
 
-    public TStartBlock getStartBlock()
+    public LinkedList<PDeclaracao> getDeclaracao()
     {
-        return this._startBlock_;
+        return this._declaracao_;
     }
 
-    public void setStartBlock(TStartBlock node)
+    public void setDeclaracao(List<?> list)
     {
-        if(this._startBlock_ != null)
+        for(PDeclaracao e : this._declaracao_)
         {
-            this._startBlock_.parent(null);
+            e.parent(null);
         }
+        this._declaracao_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PDeclaracao e = (PDeclaracao) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._declaracao_.add(e);
         }
-
-        this._startBlock_ = node;
-    }
-
-    public PAtributos getAtributos()
-    {
-        return this._atributos_;
-    }
-
-    public void setAtributos(PAtributos node)
-    {
-        if(this._atributos_ != null)
-        {
-            this._atributos_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._atributos_ = node;
     }
 
     public PExp getExp()
@@ -125,66 +92,26 @@ public final class ABlocoExp extends PBlocoExp
         this._exp_ = node;
     }
 
-    public TFinishBlock getFinishBlock()
-    {
-        return this._finishBlock_;
-    }
-
-    public void setFinishBlock(TFinishBlock node)
-    {
-        if(this._finishBlock_ != null)
-        {
-            this._finishBlock_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._finishBlock_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._startBlock_)
-            + toString(this._atributos_)
-            + toString(this._exp_)
-            + toString(this._finishBlock_);
+            + toString(this._declaracao_)
+            + toString(this._exp_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._startBlock_ == child)
+        if(this._declaracao_.remove(child))
         {
-            this._startBlock_ = null;
-            return;
-        }
-
-        if(this._atributos_ == child)
-        {
-            this._atributos_ = null;
             return;
         }
 
         if(this._exp_ == child)
         {
             this._exp_ = null;
-            return;
-        }
-
-        if(this._finishBlock_ == child)
-        {
-            this._finishBlock_ = null;
             return;
         }
 
@@ -195,27 +122,27 @@ public final class ABlocoExp extends PBlocoExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._startBlock_ == oldChild)
+        for(ListIterator<PDeclaracao> i = this._declaracao_.listIterator(); i.hasNext();)
         {
-            setStartBlock((TStartBlock) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PDeclaracao) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._atributos_ == oldChild)
-        {
-            setAtributos((PAtributos) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._exp_ == oldChild)
         {
             setExp((PExp) newChild);
-            return;
-        }
-
-        if(this._finishBlock_ == oldChild)
-        {
-            setFinishBlock((TFinishBlock) newChild);
             return;
         }
 

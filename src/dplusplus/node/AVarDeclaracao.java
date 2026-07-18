@@ -7,7 +7,9 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AVarDeclaracao extends PDeclaracao
 {
-    private PDecVar _decVar_;
+    private PTipoPrimitivo _tipoPrimitivo_;
+    private TId _id_;
+    private PExp _exp_;
 
     public AVarDeclaracao()
     {
@@ -15,10 +17,16 @@ public final class AVarDeclaracao extends PDeclaracao
     }
 
     public AVarDeclaracao(
-        @SuppressWarnings("hiding") PDecVar _decVar_)
+        @SuppressWarnings("hiding") PTipoPrimitivo _tipoPrimitivo_,
+        @SuppressWarnings("hiding") TId _id_,
+        @SuppressWarnings("hiding") PExp _exp_)
     {
         // Constructor
-        setDecVar(_decVar_);
+        setTipoPrimitivo(_tipoPrimitivo_);
+
+        setId(_id_);
+
+        setExp(_exp_);
 
     }
 
@@ -26,7 +34,9 @@ public final class AVarDeclaracao extends PDeclaracao
     public Object clone()
     {
         return new AVarDeclaracao(
-            cloneNode(this._decVar_));
+            cloneNode(this._tipoPrimitivo_),
+            cloneNode(this._id_),
+            cloneNode(this._exp_));
     }
 
     @Override
@@ -35,16 +45,16 @@ public final class AVarDeclaracao extends PDeclaracao
         ((Analysis) sw).caseAVarDeclaracao(this);
     }
 
-    public PDecVar getDecVar()
+    public PTipoPrimitivo getTipoPrimitivo()
     {
-        return this._decVar_;
+        return this._tipoPrimitivo_;
     }
 
-    public void setDecVar(PDecVar node)
+    public void setTipoPrimitivo(PTipoPrimitivo node)
     {
-        if(this._decVar_ != null)
+        if(this._tipoPrimitivo_ != null)
         {
-            this._decVar_.parent(null);
+            this._tipoPrimitivo_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +67,87 @@ public final class AVarDeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._decVar_ = node;
+        this._tipoPrimitivo_ = node;
+    }
+
+    public TId getId()
+    {
+        return this._id_;
+    }
+
+    public void setId(TId node)
+    {
+        if(this._id_ != null)
+        {
+            this._id_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._id_ = node;
+    }
+
+    public PExp getExp()
+    {
+        return this._exp_;
+    }
+
+    public void setExp(PExp node)
+    {
+        if(this._exp_ != null)
+        {
+            this._exp_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._exp_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._decVar_);
+            + toString(this._tipoPrimitivo_)
+            + toString(this._id_)
+            + toString(this._exp_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._decVar_ == child)
+        if(this._tipoPrimitivo_ == child)
         {
-            this._decVar_ = null;
+            this._tipoPrimitivo_ = null;
+            return;
+        }
+
+        if(this._id_ == child)
+        {
+            this._id_ = null;
+            return;
+        }
+
+        if(this._exp_ == child)
+        {
+            this._exp_ = null;
             return;
         }
 
@@ -84,9 +158,21 @@ public final class AVarDeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._decVar_ == oldChild)
+        if(this._tipoPrimitivo_ == oldChild)
         {
-            setDecVar((PDecVar) newChild);
+            setTipoPrimitivo((PTipoPrimitivo) newChild);
+            return;
+        }
+
+        if(this._id_ == oldChild)
+        {
+            setId((TId) newChild);
+            return;
+        }
+
+        if(this._exp_ == oldChild)
+        {
+            setExp((PExp) newChild);
             return;
         }
 

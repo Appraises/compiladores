@@ -8,11 +8,9 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AChamada extends PChamada
 {
-    private TId _id_;
-    private final LinkedList<PAcessoExtra> _acessoExtra_ = new LinkedList<PAcessoExtra>();
-    private TColcheteEsq _colcheteEsq_;
-    private PListaExp _listaExp_;
-    private TColcheteDir _colcheteDir_;
+    private TId _base_;
+    private final LinkedList<TId> _acessos_ = new LinkedList<TId>();
+    private final LinkedList<PExp> _argumentos_ = new LinkedList<PExp>();
 
     public AChamada()
     {
@@ -20,22 +18,16 @@ public final class AChamada extends PChamada
     }
 
     public AChamada(
-        @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") List<?> _acessoExtra_,
-        @SuppressWarnings("hiding") TColcheteEsq _colcheteEsq_,
-        @SuppressWarnings("hiding") PListaExp _listaExp_,
-        @SuppressWarnings("hiding") TColcheteDir _colcheteDir_)
+        @SuppressWarnings("hiding") TId _base_,
+        @SuppressWarnings("hiding") List<?> _acessos_,
+        @SuppressWarnings("hiding") List<?> _argumentos_)
     {
         // Constructor
-        setId(_id_);
+        setBase(_base_);
 
-        setAcessoExtra(_acessoExtra_);
+        setAcessos(_acessos_);
 
-        setColcheteEsq(_colcheteEsq_);
-
-        setListaExp(_listaExp_);
-
-        setColcheteDir(_colcheteDir_);
+        setArgumentos(_argumentos_);
 
     }
 
@@ -43,11 +35,9 @@ public final class AChamada extends PChamada
     public Object clone()
     {
         return new AChamada(
-            cloneNode(this._id_),
-            cloneList(this._acessoExtra_),
-            cloneNode(this._colcheteEsq_),
-            cloneNode(this._listaExp_),
-            cloneNode(this._colcheteDir_));
+            cloneNode(this._base_),
+            cloneList(this._acessos_),
+            cloneList(this._argumentos_));
     }
 
     @Override
@@ -56,16 +46,16 @@ public final class AChamada extends PChamada
         ((Analysis) sw).caseAChamada(this);
     }
 
-    public TId getId()
+    public TId getBase()
     {
-        return this._id_;
+        return this._base_;
     }
 
-    public void setId(TId node)
+    public void setBase(TId node)
     {
-        if(this._id_ != null)
+        if(this._base_ != null)
         {
-            this._id_.parent(null);
+            this._base_.parent(null);
         }
 
         if(node != null)
@@ -78,151 +68,87 @@ public final class AChamada extends PChamada
             node.parent(this);
         }
 
-        this._id_ = node;
+        this._base_ = node;
     }
 
-    public LinkedList<PAcessoExtra> getAcessoExtra()
+    public LinkedList<TId> getAcessos()
     {
-        return this._acessoExtra_;
+        return this._acessos_;
     }
 
-    public void setAcessoExtra(List<?> list)
+    public void setAcessos(List<?> list)
     {
-        for(PAcessoExtra e : this._acessoExtra_)
+        for(TId e : this._acessos_)
         {
             e.parent(null);
         }
-        this._acessoExtra_.clear();
+        this._acessos_.clear();
 
         for(Object obj_e : list)
         {
-            PAcessoExtra e = (PAcessoExtra) obj_e;
+            TId e = (TId) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._acessoExtra_.add(e);
+            this._acessos_.add(e);
         }
     }
 
-    public TColcheteEsq getColcheteEsq()
+    public LinkedList<PExp> getArgumentos()
     {
-        return this._colcheteEsq_;
+        return this._argumentos_;
     }
 
-    public void setColcheteEsq(TColcheteEsq node)
+    public void setArgumentos(List<?> list)
     {
-        if(this._colcheteEsq_ != null)
+        for(PExp e : this._argumentos_)
         {
-            this._colcheteEsq_.parent(null);
+            e.parent(null);
         }
+        this._argumentos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PExp e = (PExp) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._argumentos_.add(e);
         }
-
-        this._colcheteEsq_ = node;
-    }
-
-    public PListaExp getListaExp()
-    {
-        return this._listaExp_;
-    }
-
-    public void setListaExp(PListaExp node)
-    {
-        if(this._listaExp_ != null)
-        {
-            this._listaExp_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._listaExp_ = node;
-    }
-
-    public TColcheteDir getColcheteDir()
-    {
-        return this._colcheteDir_;
-    }
-
-    public void setColcheteDir(TColcheteDir node)
-    {
-        if(this._colcheteDir_ != null)
-        {
-            this._colcheteDir_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._colcheteDir_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._id_)
-            + toString(this._acessoExtra_)
-            + toString(this._colcheteEsq_)
-            + toString(this._listaExp_)
-            + toString(this._colcheteDir_);
+            + toString(this._base_)
+            + toString(this._acessos_)
+            + toString(this._argumentos_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._id_ == child)
+        if(this._base_ == child)
         {
-            this._id_ = null;
+            this._base_ = null;
             return;
         }
 
-        if(this._acessoExtra_.remove(child))
+        if(this._acessos_.remove(child))
         {
             return;
         }
 
-        if(this._colcheteEsq_ == child)
+        if(this._argumentos_.remove(child))
         {
-            this._colcheteEsq_ = null;
-            return;
-        }
-
-        if(this._listaExp_ == child)
-        {
-            this._listaExp_ = null;
-            return;
-        }
-
-        if(this._colcheteDir_ == child)
-        {
-            this._colcheteDir_ = null;
             return;
         }
 
@@ -233,19 +159,19 @@ public final class AChamada extends PChamada
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._id_ == oldChild)
+        if(this._base_ == oldChild)
         {
-            setId((TId) newChild);
+            setBase((TId) newChild);
             return;
         }
 
-        for(ListIterator<PAcessoExtra> i = this._acessoExtra_.listIterator(); i.hasNext();)
+        for(ListIterator<TId> i = this._acessos_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PAcessoExtra) newChild);
+                    i.set((TId) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;
@@ -257,22 +183,22 @@ public final class AChamada extends PChamada
             }
         }
 
-        if(this._colcheteEsq_ == oldChild)
+        for(ListIterator<PExp> i = this._argumentos_.listIterator(); i.hasNext();)
         {
-            setColcheteEsq((TColcheteEsq) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PExp) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._listaExp_ == oldChild)
-        {
-            setListaExp((PListaExp) newChild);
-            return;
-        }
-
-        if(this._colcheteDir_ == oldChild)
-        {
-            setColcheteDir((TColcheteDir) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

@@ -7,9 +7,7 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class ARelacao extends PRelacao
 {
-    private TFamily _family_;
     private TIdClasse _filha_;
-    private TDerivesFrom _derivesFrom_;
     private TIdClasse _mae_;
 
     public ARelacao()
@@ -18,17 +16,11 @@ public final class ARelacao extends PRelacao
     }
 
     public ARelacao(
-        @SuppressWarnings("hiding") TFamily _family_,
         @SuppressWarnings("hiding") TIdClasse _filha_,
-        @SuppressWarnings("hiding") TDerivesFrom _derivesFrom_,
         @SuppressWarnings("hiding") TIdClasse _mae_)
     {
         // Constructor
-        setFamily(_family_);
-
         setFilha(_filha_);
-
-        setDerivesFrom(_derivesFrom_);
 
         setMae(_mae_);
 
@@ -38,9 +30,7 @@ public final class ARelacao extends PRelacao
     public Object clone()
     {
         return new ARelacao(
-            cloneNode(this._family_),
             cloneNode(this._filha_),
-            cloneNode(this._derivesFrom_),
             cloneNode(this._mae_));
     }
 
@@ -48,31 +38,6 @@ public final class ARelacao extends PRelacao
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseARelacao(this);
-    }
-
-    public TFamily getFamily()
-    {
-        return this._family_;
-    }
-
-    public void setFamily(TFamily node)
-    {
-        if(this._family_ != null)
-        {
-            this._family_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._family_ = node;
     }
 
     public TIdClasse getFilha()
@@ -98,31 +63,6 @@ public final class ARelacao extends PRelacao
         }
 
         this._filha_ = node;
-    }
-
-    public TDerivesFrom getDerivesFrom()
-    {
-        return this._derivesFrom_;
-    }
-
-    public void setDerivesFrom(TDerivesFrom node)
-    {
-        if(this._derivesFrom_ != null)
-        {
-            this._derivesFrom_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._derivesFrom_ = node;
     }
 
     public TIdClasse getMae()
@@ -154,9 +94,7 @@ public final class ARelacao extends PRelacao
     public String toString()
     {
         return ""
-            + toString(this._family_)
             + toString(this._filha_)
-            + toString(this._derivesFrom_)
             + toString(this._mae_);
     }
 
@@ -164,21 +102,9 @@ public final class ARelacao extends PRelacao
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._family_ == child)
-        {
-            this._family_ = null;
-            return;
-        }
-
         if(this._filha_ == child)
         {
             this._filha_ = null;
-            return;
-        }
-
-        if(this._derivesFrom_ == child)
-        {
-            this._derivesFrom_ = null;
             return;
         }
 
@@ -195,21 +121,9 @@ public final class ARelacao extends PRelacao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._family_ == oldChild)
-        {
-            setFamily((TFamily) newChild);
-            return;
-        }
-
         if(this._filha_ == oldChild)
         {
             setFilha((TIdClasse) newChild);
-            return;
-        }
-
-        if(this._derivesFrom_ == oldChild)
-        {
-            setDerivesFrom((TDerivesFrom) newChild);
             return;
         }
 

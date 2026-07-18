@@ -2,17 +2,15 @@
 
 package dplusplus.node;
 
+import java.util.*;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ADefClasse extends PDefClasse
 {
-    private TFamily _family_;
     private TIdClasse _idClasse_;
-    private TStartBlock _startBlock_;
-    private PAtributos _atributos_;
-    private PMetodos _metodos_;
-    private TFinishBlock _finishBlock_;
+    private final LinkedList<PDeclaracao> _declaracao_ = new LinkedList<PDeclaracao>();
+    private final LinkedList<PMetodo> _metodo_ = new LinkedList<PMetodo>();
 
     public ADefClasse()
     {
@@ -20,25 +18,16 @@ public final class ADefClasse extends PDefClasse
     }
 
     public ADefClasse(
-        @SuppressWarnings("hiding") TFamily _family_,
         @SuppressWarnings("hiding") TIdClasse _idClasse_,
-        @SuppressWarnings("hiding") TStartBlock _startBlock_,
-        @SuppressWarnings("hiding") PAtributos _atributos_,
-        @SuppressWarnings("hiding") PMetodos _metodos_,
-        @SuppressWarnings("hiding") TFinishBlock _finishBlock_)
+        @SuppressWarnings("hiding") List<?> _declaracao_,
+        @SuppressWarnings("hiding") List<?> _metodo_)
     {
         // Constructor
-        setFamily(_family_);
-
         setIdClasse(_idClasse_);
 
-        setStartBlock(_startBlock_);
+        setDeclaracao(_declaracao_);
 
-        setAtributos(_atributos_);
-
-        setMetodos(_metodos_);
-
-        setFinishBlock(_finishBlock_);
+        setMetodo(_metodo_);
 
     }
 
@@ -46,43 +35,15 @@ public final class ADefClasse extends PDefClasse
     public Object clone()
     {
         return new ADefClasse(
-            cloneNode(this._family_),
             cloneNode(this._idClasse_),
-            cloneNode(this._startBlock_),
-            cloneNode(this._atributos_),
-            cloneNode(this._metodos_),
-            cloneNode(this._finishBlock_));
+            cloneList(this._declaracao_),
+            cloneList(this._metodo_));
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseADefClasse(this);
-    }
-
-    public TFamily getFamily()
-    {
-        return this._family_;
-    }
-
-    public void setFamily(TFamily node)
-    {
-        if(this._family_ != null)
-        {
-            this._family_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._family_ = node;
     }
 
     public TIdClasse getIdClasse()
@@ -110,155 +71,84 @@ public final class ADefClasse extends PDefClasse
         this._idClasse_ = node;
     }
 
-    public TStartBlock getStartBlock()
+    public LinkedList<PDeclaracao> getDeclaracao()
     {
-        return this._startBlock_;
+        return this._declaracao_;
     }
 
-    public void setStartBlock(TStartBlock node)
+    public void setDeclaracao(List<?> list)
     {
-        if(this._startBlock_ != null)
+        for(PDeclaracao e : this._declaracao_)
         {
-            this._startBlock_.parent(null);
+            e.parent(null);
         }
+        this._declaracao_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PDeclaracao e = (PDeclaracao) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._declaracao_.add(e);
         }
-
-        this._startBlock_ = node;
     }
 
-    public PAtributos getAtributos()
+    public LinkedList<PMetodo> getMetodo()
     {
-        return this._atributos_;
+        return this._metodo_;
     }
 
-    public void setAtributos(PAtributos node)
+    public void setMetodo(List<?> list)
     {
-        if(this._atributos_ != null)
+        for(PMetodo e : this._metodo_)
         {
-            this._atributos_.parent(null);
+            e.parent(null);
         }
+        this._metodo_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PMetodo e = (PMetodo) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._metodo_.add(e);
         }
-
-        this._atributos_ = node;
-    }
-
-    public PMetodos getMetodos()
-    {
-        return this._metodos_;
-    }
-
-    public void setMetodos(PMetodos node)
-    {
-        if(this._metodos_ != null)
-        {
-            this._metodos_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._metodos_ = node;
-    }
-
-    public TFinishBlock getFinishBlock()
-    {
-        return this._finishBlock_;
-    }
-
-    public void setFinishBlock(TFinishBlock node)
-    {
-        if(this._finishBlock_ != null)
-        {
-            this._finishBlock_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._finishBlock_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._family_)
             + toString(this._idClasse_)
-            + toString(this._startBlock_)
-            + toString(this._atributos_)
-            + toString(this._metodos_)
-            + toString(this._finishBlock_);
+            + toString(this._declaracao_)
+            + toString(this._metodo_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._family_ == child)
-        {
-            this._family_ = null;
-            return;
-        }
-
         if(this._idClasse_ == child)
         {
             this._idClasse_ = null;
             return;
         }
 
-        if(this._startBlock_ == child)
+        if(this._declaracao_.remove(child))
         {
-            this._startBlock_ = null;
             return;
         }
 
-        if(this._atributos_ == child)
+        if(this._metodo_.remove(child))
         {
-            this._atributos_ = null;
-            return;
-        }
-
-        if(this._metodos_ == child)
-        {
-            this._metodos_ = null;
-            return;
-        }
-
-        if(this._finishBlock_ == child)
-        {
-            this._finishBlock_ = null;
             return;
         }
 
@@ -269,40 +159,46 @@ public final class ADefClasse extends PDefClasse
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._family_ == oldChild)
-        {
-            setFamily((TFamily) newChild);
-            return;
-        }
-
         if(this._idClasse_ == oldChild)
         {
             setIdClasse((TIdClasse) newChild);
             return;
         }
 
-        if(this._startBlock_ == oldChild)
+        for(ListIterator<PDeclaracao> i = this._declaracao_.listIterator(); i.hasNext();)
         {
-            setStartBlock((TStartBlock) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PDeclaracao) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
-        if(this._atributos_ == oldChild)
+        for(ListIterator<PMetodo> i = this._metodo_.listIterator(); i.hasNext();)
         {
-            setAtributos((PAtributos) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PMetodo) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._metodos_ == oldChild)
-        {
-            setMetodos((PMetodos) newChild);
-            return;
-        }
-
-        if(this._finishBlock_ == oldChild)
-        {
-            setFinishBlock((TFinishBlock) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

@@ -7,26 +7,16 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AAnswerTipoPrimitivo extends PTipoPrimitivo
 {
-    private TAnswer _answer_;
 
     public AAnswerTipoPrimitivo()
     {
         // Constructor
     }
 
-    public AAnswerTipoPrimitivo(
-        @SuppressWarnings("hiding") TAnswer _answer_)
-    {
-        // Constructor
-        setAnswer(_answer_);
-
-    }
-
     @Override
     public Object clone()
     {
-        return new AAnswerTipoPrimitivo(
-            cloneNode(this._answer_));
+        return new AAnswerTipoPrimitivo();
     }
 
     @Override
@@ -35,48 +25,16 @@ public final class AAnswerTipoPrimitivo extends PTipoPrimitivo
         ((Analysis) sw).caseAAnswerTipoPrimitivo(this);
     }
 
-    public TAnswer getAnswer()
-    {
-        return this._answer_;
-    }
-
-    public void setAnswer(TAnswer node)
-    {
-        if(this._answer_ != null)
-        {
-            this._answer_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._answer_ = node;
-    }
-
     @Override
     public String toString()
     {
-        return ""
-            + toString(this._answer_);
+        return "";
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._answer_ == child)
-        {
-            this._answer_ = null;
-            return;
-        }
-
         throw new RuntimeException("Not a child.");
     }
 
@@ -84,12 +42,6 @@ public final class AAnswerTipoPrimitivo extends PTipoPrimitivo
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._answer_ == oldChild)
-        {
-            setAnswer((TAnswer) newChild);
-            return;
-        }
-
         throw new RuntimeException("Not a child.");
     }
 }

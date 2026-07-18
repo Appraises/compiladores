@@ -7,7 +7,8 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AObjDeclaracao extends PDeclaracao
 {
-    private PDecObj _decObj_;
+    private TIdClasse _idClasse_;
+    private TId _id_;
 
     public AObjDeclaracao()
     {
@@ -15,10 +16,13 @@ public final class AObjDeclaracao extends PDeclaracao
     }
 
     public AObjDeclaracao(
-        @SuppressWarnings("hiding") PDecObj _decObj_)
+        @SuppressWarnings("hiding") TIdClasse _idClasse_,
+        @SuppressWarnings("hiding") TId _id_)
     {
         // Constructor
-        setDecObj(_decObj_);
+        setIdClasse(_idClasse_);
+
+        setId(_id_);
 
     }
 
@@ -26,7 +30,8 @@ public final class AObjDeclaracao extends PDeclaracao
     public Object clone()
     {
         return new AObjDeclaracao(
-            cloneNode(this._decObj_));
+            cloneNode(this._idClasse_),
+            cloneNode(this._id_));
     }
 
     @Override
@@ -35,16 +40,16 @@ public final class AObjDeclaracao extends PDeclaracao
         ((Analysis) sw).caseAObjDeclaracao(this);
     }
 
-    public PDecObj getDecObj()
+    public TIdClasse getIdClasse()
     {
-        return this._decObj_;
+        return this._idClasse_;
     }
 
-    public void setDecObj(PDecObj node)
+    public void setIdClasse(TIdClasse node)
     {
-        if(this._decObj_ != null)
+        if(this._idClasse_ != null)
         {
-            this._decObj_.parent(null);
+            this._idClasse_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +62,55 @@ public final class AObjDeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._decObj_ = node;
+        this._idClasse_ = node;
+    }
+
+    public TId getId()
+    {
+        return this._id_;
+    }
+
+    public void setId(TId node)
+    {
+        if(this._id_ != null)
+        {
+            this._id_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._id_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._decObj_);
+            + toString(this._idClasse_)
+            + toString(this._id_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._decObj_ == child)
+        if(this._idClasse_ == child)
         {
-            this._decObj_ = null;
+            this._idClasse_ = null;
+            return;
+        }
+
+        if(this._id_ == child)
+        {
+            this._id_ = null;
             return;
         }
 
@@ -84,9 +121,15 @@ public final class AObjDeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._decObj_ == oldChild)
+        if(this._idClasse_ == oldChild)
         {
-            setDecObj((PDecObj) newChild);
+            setIdClasse((TIdClasse) newChild);
+            return;
+        }
+
+        if(this._id_ == oldChild)
+        {
+            setId((TId) newChild);
             return;
         }
 

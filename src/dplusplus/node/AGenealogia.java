@@ -8,9 +8,7 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class AGenealogia extends PGenealogia
 {
-    private PRelacao _relacao_;
-    private final LinkedList<PListaRelacoes> _listaRelacoes_ = new LinkedList<PListaRelacoes>();
-    private TPonto _ponto_;
+    private final LinkedList<PRelacao> _relacao_ = new LinkedList<PRelacao>();
 
     public AGenealogia()
     {
@@ -18,16 +16,10 @@ public final class AGenealogia extends PGenealogia
     }
 
     public AGenealogia(
-        @SuppressWarnings("hiding") PRelacao _relacao_,
-        @SuppressWarnings("hiding") List<?> _listaRelacoes_,
-        @SuppressWarnings("hiding") TPonto _ponto_)
+        @SuppressWarnings("hiding") List<?> _relacao_)
     {
         // Constructor
         setRelacao(_relacao_);
-
-        setListaRelacoes(_listaRelacoes_);
-
-        setPonto(_ponto_);
 
     }
 
@@ -35,9 +27,7 @@ public final class AGenealogia extends PGenealogia
     public Object clone()
     {
         return new AGenealogia(
-            cloneNode(this._relacao_),
-            cloneList(this._listaRelacoes_),
-            cloneNode(this._ponto_));
+            cloneList(this._relacao_));
     }
 
     @Override
@@ -46,109 +36,45 @@ public final class AGenealogia extends PGenealogia
         ((Analysis) sw).caseAGenealogia(this);
     }
 
-    public PRelacao getRelacao()
+    public LinkedList<PRelacao> getRelacao()
     {
         return this._relacao_;
     }
 
-    public void setRelacao(PRelacao node)
+    public void setRelacao(List<?> list)
     {
-        if(this._relacao_ != null)
-        {
-            this._relacao_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._relacao_ = node;
-    }
-
-    public LinkedList<PListaRelacoes> getListaRelacoes()
-    {
-        return this._listaRelacoes_;
-    }
-
-    public void setListaRelacoes(List<?> list)
-    {
-        for(PListaRelacoes e : this._listaRelacoes_)
+        for(PRelacao e : this._relacao_)
         {
             e.parent(null);
         }
-        this._listaRelacoes_.clear();
+        this._relacao_.clear();
 
         for(Object obj_e : list)
         {
-            PListaRelacoes e = (PListaRelacoes) obj_e;
+            PRelacao e = (PRelacao) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._listaRelacoes_.add(e);
+            this._relacao_.add(e);
         }
-    }
-
-    public TPonto getPonto()
-    {
-        return this._ponto_;
-    }
-
-    public void setPonto(TPonto node)
-    {
-        if(this._ponto_ != null)
-        {
-            this._ponto_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._ponto_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._relacao_)
-            + toString(this._listaRelacoes_)
-            + toString(this._ponto_);
+            + toString(this._relacao_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._relacao_ == child)
+        if(this._relacao_.remove(child))
         {
-            this._relacao_ = null;
-            return;
-        }
-
-        if(this._listaRelacoes_.remove(child))
-        {
-            return;
-        }
-
-        if(this._ponto_ == child)
-        {
-            this._ponto_ = null;
             return;
         }
 
@@ -159,19 +85,13 @@ public final class AGenealogia extends PGenealogia
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._relacao_ == oldChild)
-        {
-            setRelacao((PRelacao) newChild);
-            return;
-        }
-
-        for(ListIterator<PListaRelacoes> i = this._listaRelacoes_.listIterator(); i.hasNext();)
+        for(ListIterator<PRelacao> i = this._relacao_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PListaRelacoes) newChild);
+                    i.set((PRelacao) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;
@@ -181,12 +101,6 @@ public final class AGenealogia extends PGenealogia
                 oldChild.parent(null);
                 return;
             }
-        }
-
-        if(this._ponto_ == oldChild)
-        {
-            setPonto((TPonto) newChild);
-            return;
         }
 
         throw new RuntimeException("Not a child.");

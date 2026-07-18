@@ -2,15 +2,14 @@
 
 package dplusplus.node;
 
+import java.util.*;
 import dplusplus.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ABloco extends PBloco
 {
-    private TStartBlock _startBlock_;
-    private PAtributos _atributos_;
-    private PListaComandos _listaComandos_;
-    private TFinishBlock _finishBlock_;
+    private final LinkedList<PDeclaracao> _declaracao_ = new LinkedList<PDeclaracao>();
+    private final LinkedList<PComando> _comando_ = new LinkedList<PComando>();
 
     public ABloco()
     {
@@ -18,19 +17,13 @@ public final class ABloco extends PBloco
     }
 
     public ABloco(
-        @SuppressWarnings("hiding") TStartBlock _startBlock_,
-        @SuppressWarnings("hiding") PAtributos _atributos_,
-        @SuppressWarnings("hiding") PListaComandos _listaComandos_,
-        @SuppressWarnings("hiding") TFinishBlock _finishBlock_)
+        @SuppressWarnings("hiding") List<?> _declaracao_,
+        @SuppressWarnings("hiding") List<?> _comando_)
     {
         // Constructor
-        setStartBlock(_startBlock_);
+        setDeclaracao(_declaracao_);
 
-        setAtributos(_atributos_);
-
-        setListaComandos(_listaComandos_);
-
-        setFinishBlock(_finishBlock_);
+        setComando(_comando_);
 
     }
 
@@ -38,10 +31,8 @@ public final class ABloco extends PBloco
     public Object clone()
     {
         return new ABloco(
-            cloneNode(this._startBlock_),
-            cloneNode(this._atributos_),
-            cloneNode(this._listaComandos_),
-            cloneNode(this._finishBlock_));
+            cloneList(this._declaracao_),
+            cloneList(this._comando_));
     }
 
     @Override
@@ -50,141 +41,77 @@ public final class ABloco extends PBloco
         ((Analysis) sw).caseABloco(this);
     }
 
-    public TStartBlock getStartBlock()
+    public LinkedList<PDeclaracao> getDeclaracao()
     {
-        return this._startBlock_;
+        return this._declaracao_;
     }
 
-    public void setStartBlock(TStartBlock node)
+    public void setDeclaracao(List<?> list)
     {
-        if(this._startBlock_ != null)
+        for(PDeclaracao e : this._declaracao_)
         {
-            this._startBlock_.parent(null);
+            e.parent(null);
         }
+        this._declaracao_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PDeclaracao e = (PDeclaracao) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._declaracao_.add(e);
         }
-
-        this._startBlock_ = node;
     }
 
-    public PAtributos getAtributos()
+    public LinkedList<PComando> getComando()
     {
-        return this._atributos_;
+        return this._comando_;
     }
 
-    public void setAtributos(PAtributos node)
+    public void setComando(List<?> list)
     {
-        if(this._atributos_ != null)
+        for(PComando e : this._comando_)
         {
-            this._atributos_.parent(null);
+            e.parent(null);
         }
+        this._comando_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PComando e = (PComando) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._comando_.add(e);
         }
-
-        this._atributos_ = node;
-    }
-
-    public PListaComandos getListaComandos()
-    {
-        return this._listaComandos_;
-    }
-
-    public void setListaComandos(PListaComandos node)
-    {
-        if(this._listaComandos_ != null)
-        {
-            this._listaComandos_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._listaComandos_ = node;
-    }
-
-    public TFinishBlock getFinishBlock()
-    {
-        return this._finishBlock_;
-    }
-
-    public void setFinishBlock(TFinishBlock node)
-    {
-        if(this._finishBlock_ != null)
-        {
-            this._finishBlock_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._finishBlock_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._startBlock_)
-            + toString(this._atributos_)
-            + toString(this._listaComandos_)
-            + toString(this._finishBlock_);
+            + toString(this._declaracao_)
+            + toString(this._comando_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._startBlock_ == child)
+        if(this._declaracao_.remove(child))
         {
-            this._startBlock_ = null;
             return;
         }
 
-        if(this._atributos_ == child)
+        if(this._comando_.remove(child))
         {
-            this._atributos_ = null;
-            return;
-        }
-
-        if(this._listaComandos_ == child)
-        {
-            this._listaComandos_ = null;
-            return;
-        }
-
-        if(this._finishBlock_ == child)
-        {
-            this._finishBlock_ = null;
             return;
         }
 
@@ -195,28 +122,40 @@ public final class ABloco extends PBloco
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._startBlock_ == oldChild)
+        for(ListIterator<PDeclaracao> i = this._declaracao_.listIterator(); i.hasNext();)
         {
-            setStartBlock((TStartBlock) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PDeclaracao) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
-        if(this._atributos_ == oldChild)
+        for(ListIterator<PComando> i = this._comando_.listIterator(); i.hasNext();)
         {
-            setAtributos((PAtributos) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComando) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._listaComandos_ == oldChild)
-        {
-            setListaComandos((PListaComandos) newChild);
-            return;
-        }
-
-        if(this._finishBlock_ == oldChild)
-        {
-            setFinishBlock((TFinishBlock) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

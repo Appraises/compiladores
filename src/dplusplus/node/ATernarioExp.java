@@ -7,12 +7,8 @@ import dplusplus.analysis.*;
 @SuppressWarnings("nls")
 public final class ATernarioExp extends PExp
 {
-    private TIf _if_;
-    private TParenteseEsq _parenteseEsq_;
     private PExp _condicao_;
-    private TParenteseDir _parenteseDir_;
     private PExp _expIf_;
-    private TElse _else_;
     private PExp _expElse_;
 
     public ATernarioExp()
@@ -21,26 +17,14 @@ public final class ATernarioExp extends PExp
     }
 
     public ATernarioExp(
-        @SuppressWarnings("hiding") TIf _if_,
-        @SuppressWarnings("hiding") TParenteseEsq _parenteseEsq_,
         @SuppressWarnings("hiding") PExp _condicao_,
-        @SuppressWarnings("hiding") TParenteseDir _parenteseDir_,
         @SuppressWarnings("hiding") PExp _expIf_,
-        @SuppressWarnings("hiding") TElse _else_,
         @SuppressWarnings("hiding") PExp _expElse_)
     {
         // Constructor
-        setIf(_if_);
-
-        setParenteseEsq(_parenteseEsq_);
-
         setCondicao(_condicao_);
 
-        setParenteseDir(_parenteseDir_);
-
         setExpIf(_expIf_);
-
-        setElse(_else_);
 
         setExpElse(_expElse_);
 
@@ -50,12 +34,8 @@ public final class ATernarioExp extends PExp
     public Object clone()
     {
         return new ATernarioExp(
-            cloneNode(this._if_),
-            cloneNode(this._parenteseEsq_),
             cloneNode(this._condicao_),
-            cloneNode(this._parenteseDir_),
             cloneNode(this._expIf_),
-            cloneNode(this._else_),
             cloneNode(this._expElse_));
     }
 
@@ -63,56 +43,6 @@ public final class ATernarioExp extends PExp
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseATernarioExp(this);
-    }
-
-    public TIf getIf()
-    {
-        return this._if_;
-    }
-
-    public void setIf(TIf node)
-    {
-        if(this._if_ != null)
-        {
-            this._if_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._if_ = node;
-    }
-
-    public TParenteseEsq getParenteseEsq()
-    {
-        return this._parenteseEsq_;
-    }
-
-    public void setParenteseEsq(TParenteseEsq node)
-    {
-        if(this._parenteseEsq_ != null)
-        {
-            this._parenteseEsq_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._parenteseEsq_ = node;
     }
 
     public PExp getCondicao()
@@ -140,31 +70,6 @@ public final class ATernarioExp extends PExp
         this._condicao_ = node;
     }
 
-    public TParenteseDir getParenteseDir()
-    {
-        return this._parenteseDir_;
-    }
-
-    public void setParenteseDir(TParenteseDir node)
-    {
-        if(this._parenteseDir_ != null)
-        {
-            this._parenteseDir_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._parenteseDir_ = node;
-    }
-
     public PExp getExpIf()
     {
         return this._expIf_;
@@ -188,31 +93,6 @@ public final class ATernarioExp extends PExp
         }
 
         this._expIf_ = node;
-    }
-
-    public TElse getElse()
-    {
-        return this._else_;
-    }
-
-    public void setElse(TElse node)
-    {
-        if(this._else_ != null)
-        {
-            this._else_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._else_ = node;
     }
 
     public PExp getExpElse()
@@ -244,12 +124,8 @@ public final class ATernarioExp extends PExp
     public String toString()
     {
         return ""
-            + toString(this._if_)
-            + toString(this._parenteseEsq_)
             + toString(this._condicao_)
-            + toString(this._parenteseDir_)
             + toString(this._expIf_)
-            + toString(this._else_)
             + toString(this._expElse_);
     }
 
@@ -257,39 +133,15 @@ public final class ATernarioExp extends PExp
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._if_ == child)
-        {
-            this._if_ = null;
-            return;
-        }
-
-        if(this._parenteseEsq_ == child)
-        {
-            this._parenteseEsq_ = null;
-            return;
-        }
-
         if(this._condicao_ == child)
         {
             this._condicao_ = null;
             return;
         }
 
-        if(this._parenteseDir_ == child)
-        {
-            this._parenteseDir_ = null;
-            return;
-        }
-
         if(this._expIf_ == child)
         {
             this._expIf_ = null;
-            return;
-        }
-
-        if(this._else_ == child)
-        {
-            this._else_ = null;
             return;
         }
 
@@ -306,39 +158,15 @@ public final class ATernarioExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._if_ == oldChild)
-        {
-            setIf((TIf) newChild);
-            return;
-        }
-
-        if(this._parenteseEsq_ == oldChild)
-        {
-            setParenteseEsq((TParenteseEsq) newChild);
-            return;
-        }
-
         if(this._condicao_ == oldChild)
         {
             setCondicao((PExp) newChild);
             return;
         }
 
-        if(this._parenteseDir_ == oldChild)
-        {
-            setParenteseDir((TParenteseDir) newChild);
-            return;
-        }
-
         if(this._expIf_ == oldChild)
         {
             setExpIf((PExp) newChild);
-            return;
-        }
-
-        if(this._else_ == oldChild)
-        {
-            setElse((TElse) newChild);
             return;
         }
 
