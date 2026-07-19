@@ -1,0 +1,45 @@
+{-
+    CASO VÁLIDO — deve passar na análise semântica.
+    Demonstra: herança, polimorfismo (subclasse aceita onde a mãe é esperada),
+    método abstrato implementado pela filha, chamadas encadeadas com '->',
+    e uso da classe pré-definida Periphericals (show / capture).
+    Observação: a classe filha Gato é declarada ANTES da mãe Animal,
+    exercitando o registro de classes independente da ordem textual.
+-}
+
+family Gato derives from Animal & family Cachorro derives from Animal.
+
+family Gato start
+    procedure som [] start finish
+finish
+
+family Cachorro start
+    procedure som [] start finish
+finish
+
+family Animal start
+    alterable number peso << 0.
+    -- método abstrato (só a assinatura): torna Animal abstrata
+    procedure som [] .
+    procedure definir_peso [number p] start
+        peso << p.
+    finish
+finish
+
+family Abrigo start
+    object Periphericals io.
+    object Gato felix.
+
+    -- recebe qualquer Animal; um Gato é um Animal (polimorfismo)
+    procedure registrar [Animal a] start
+        a->som[].
+    finish
+
+    >> procedure principal []
+    start
+        alterable number leitura << io->capture[].
+        felix->definir_peso[leitura].
+        registrar[felix].
+        io->show[leitura].
+    finish
+finish

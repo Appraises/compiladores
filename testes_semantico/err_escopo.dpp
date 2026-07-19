@@ -1,0 +1,19 @@
+{-
+    CASO DE ERRO — uso de identificadores fora de escopo / não declarados.
+    (Num bloco, as declarações vêm antes dos comandos.)
+    Esperado:
+      * 'w' não declarado (usado na inicialização de z)
+      * 'y' não declarado (nunca foi declarado)
+      * 'local' fora de escopo (declarado apenas dentro do bloco interno)
+-}
+family Foo start
+    >> procedure principal []
+    start
+        alterable number z << w + 1.
+        start
+            alterable number local << 5.
+        finish
+        y << 10.
+        z << local.
+    finish
+finish

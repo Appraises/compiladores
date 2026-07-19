@@ -4,7 +4,9 @@ import dplusplus.analysis.DepthFirstAdapter;
 import dplusplus.node.*;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DeclarationVisitor extends DepthFirstAdapter {
 
@@ -14,6 +16,15 @@ public class DeclarationVisitor extends DepthFirstAdapter {
     private int entryPointCount = 0;
 
     private Symbol currentClassSymbol = null;
+
+    // Profundidade de aninhamento em método/bloco. Uma declaração só é
+    // atributo da classe quando localDepth == 0 (corpo da classe). Declarações
+    // dentro de métodos/blocos são variáveis locais e NÃO viram membros.
+    private int localDepth = 0;
+
+    private boolean isClassAttributeContext() {
+        return currentClassSymbol != null && localDepth == 0;
+    }
 
     public DeclarationVisitor(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
@@ -82,85 +93,150 @@ public class DeclarationVisitor extends DepthFirstAdapter {
     }
 
     // =========================================================
-    // Genealogia (herança)
+    // Pré-passe: registro de classes e herança (independente de ordem)
     // =========================================================
 
-    @Override
-    public void caseAGenealogia(AGenealogia node) {
-        // Processar todas as relações sem descer nos filhos automaticamente
-        // (evitamos double-processing com caseARelacao)
-        for (PRelacao pRelacao : node.getRelacao()) {
-            if (pRelacao instanceof ARelacao) {
-                ARelacao rel = (ARelacao) pRelacao;
-                String filha = rel.getFilha().getText().trim();
-                String mae = rel.getMae().getText().trim();
-                int line = rel.getFilha().getLine();
-                int col = rel.getFilha().getPos();
+    /**
+     * Primeiro passe: registra TODAS as classes e suas relações de herança
+     * antes de qualquer resolução de membros. Isso torna a análise independente
+     * da ordem textual das declarações de classe (uma classe filha pode ser
+     * declarada antes da sua classe mãe no arquivo).
+     */
+    public void collectClasses(Node ast) {
+        // 1. Registrar relações de herança (genealogia) e símbolos de classe
+        ast.apply(new DepthFirstAdapter() {
+            @Override
+            public void caseAGenealogia(AGenealogia node) {
+                for (PRelacao pRelacao : node.getRelacao()) {
+                    if (pRelacao instanceof ARelacao) {
+                        ARelacao rel = (ARelacao) pRelacao;
+                        String filha = rel.getFilha().getText().trim();
+                        String mae = rel.getMae().getText().trim();
+                        int line = rel.getFilha().getLine();
+                        int col = rel.getFilha().getPos();
 
-                // Validar: a classe mãe não pode ser Root (não explicitamente)
-                // e não pode criar herança múltipla
-                if (symbolTable.getParentClass(filha) != null) {
-                    error("Classe '" + filha + "' ja possui uma classe mae declarada. " +
-                            "D++ suporta apenas heranca simples.", line, col);
-                    continue;
+                        // D++ suporta apenas herança simples
+                        if (symbolTable.getParentClass(filha) != null) {
+                            error("Classe '" + filha + "' ja possui uma classe mae declarada. " +
+                                    "D++ suporta apenas heranca simples.", line, col);
+                            continue;
+                        }
+                        symbolTable.registerInheritance(filha, mae);
+                    }
                 }
+            }
 
-                symbolTable.registerInheritance(filha, mae);
+            @Override
+            public void inADefClasse(ADefClasse node) {
+                String className = node.getIdClasse().getText().trim();
+                int line = node.getIdClasse().getLine();
+                int col = node.getIdClasse().getPos();
+
+                Symbol classSym = new Symbol();
+                classSym.setName(className);
+                classSym.setType(Type.CLASS);
+                classSym.setClassName(className);
+                classSym.setKind(Symbol.SymbolKind.CLASS);
+                classSym.setLine(line);
+                classSym.setCol(col);
+
+                // Herança: se não veio da genealogia, a mãe implícita é Root
+                String parentName = symbolTable.getParentClass(className);
+                if (parentName == null) {
+                    parentName = "Root";
+                    symbolTable.registerInheritance(className, "Root");
+                }
+                classSym.setParentClassName(parentName);
+
+                if (!symbolTable.registerClass(classSym)) {
+                    error("Classe '" + className + "' ja foi declarada.", line, col);
+                }
+            }
+        });
+
+        // 2. Com todas as classes registradas, validar mãe-existe e herança circular
+        for (Symbol classSym : symbolTable.getAllClasses()) {
+            String className = classSym.getName();
+            if (className.equals("Root") || className.equals("Periphericals")) {
+                continue;
+            }
+            String parentName = classSym.getParentClassName();
+            if (parentName != null && !symbolTable.classExists(parentName)) {
+                error("Classe mae '" + parentName + "' de '" + className +
+                        "' nao foi declarada.", classSym.getLine(), classSym.getCol());
+            }
+            if (symbolTable.hasCircularInheritance(className)) {
+                error("Heranca circular detectada envolvendo a classe '" + className + "'.",
+                        classSym.getLine(), classSym.getCol());
             }
         }
+    }
+
+    /**
+     * Passe final: executado após a coleta de membros de TODAS as classes.
+     * Valida sobrescrita de métodos e determina quais classes são abstratas
+     * (considerando métodos abstratos herdados e não implementados).
+     * Independente da ordem textual das classes.
+     */
+    public void finalizeInheritance() {
+        for (Symbol classSym : symbolTable.getAllClasses()) {
+            String className = classSym.getName();
+            if (className.equals("Root")) {
+                continue;
+            }
+            // Verificar compatibilidade de assinatura em sobrescritas
+            for (Symbol member : classSym.getMembers()) {
+                if (!member.isMethod()) {
+                    continue;
+                }
+                Symbol inherited = findInheritedMethod(classSym, member.getName());
+                if (inherited != null) {
+                    validateSignatureCompatibility(inherited, member, member.getLine(), member.getCol());
+                }
+            }
+            // Uma classe é abstrata se possui método abstrato (próprio ou herdado)
+            // sem implementação concreta na cadeia até ela.
+            classSym.setHasAbstractMethods(computeIsAbstract(className));
+        }
+    }
+
+    /**
+     * Determina se uma classe é abstrata: para cada nome de método visível
+     * (próprio ou herdado), a declaração mais derivada (a que prevalece) é
+     * abstrata? Se sim, a classe não pode ser instanciada.
+     */
+    private boolean computeIsAbstract(String className) {
+        Set<String> methodNames = new LinkedHashSet<>();
+        Symbol classSym = symbolTable.lookupClass(className);
+        if (classSym != null) {
+            for (Symbol m : classSym.getMembers()) {
+                if (m.isMethod()) methodNames.add(m.getName());
+            }
+        }
+        for (String ancestor : symbolTable.getAncestorChain(className)) {
+            Symbol a = symbolTable.lookupClass(ancestor);
+            if (a != null) {
+                for (Symbol m : a.getMembers()) {
+                    if (m.isMethod()) methodNames.add(m.getName());
+                }
+            }
+        }
+        for (String name : methodNames) {
+            // lookupMember retorna a declaração mais derivada (a que prevalece)
+            Symbol effective = symbolTable.lookupMember(className, name);
+            if (effective != null && effective.isMethod() && effective.isAbstract()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void inADefClasse(ADefClasse node) {
         String className = node.getIdClasse().getText().trim();
-        int line = node.getIdClasse().getLine();
-        int col = node.getIdClasse().getPos();
 
-        // Criar símbolo de classe
-        Symbol classSym = new Symbol();
-        classSym.setName(className);
-        classSym.setType(Type.CLASS);
-        classSym.setClassName(className);
-        classSym.setKind(Symbol.SymbolKind.CLASS);
-        classSym.setLine(line);
-        classSym.setCol(col);
-
-        // Registrar herança (se não veio da genealogia, é Root)
-        String parentName = symbolTable.getParentClass(className);
-        if (parentName == null) {
-            parentName = "Root";
-            symbolTable.registerInheritance(className, "Root");
-        }
-        classSym.setParentClassName(parentName);
-
-        // Validar que a classe mãe existe
-        if (!symbolTable.classExists(parentName)) {
-            error("Classe mae '" + parentName + "' de '" + className +
-                    "' nao foi declarada.", line, col);
-        }
-
-        // Verificar herança circular
-        if (symbolTable.hasCircularInheritance(className)) {
-            error("Heranca circular detectada envolvendo a classe '" + className + "'.", line, col);
-        }
-
-        // Registrar no mapa global
-        if (!symbolTable.registerClass(classSym)) {
-            error("Classe '" + className + "' ja foi declarada.", line, col);
-        }
-
-        // Herdar membros da classe mãe
-        if (symbolTable.classExists(parentName)) {
-            Symbol parentSym = symbolTable.lookupClass(parentName);
-            if (parentSym != null) {
-                for (Symbol member : parentSym.getMembers()) {
-                    // Copia membro herdado (somente se não já existe com mesmo nome)
-                    if (classSym.findMember(member.getName()) == null) {
-                        classSym.getMembers().add(member);
-                    }
-                }
-            }
-        }
+        // A classe já foi criada e registrada no pré-passe (collectClasses)
+        Symbol classSym = symbolTable.lookupClass(className);
 
         // Empilhar escopo de classe
         symbolTable.pushScope();
@@ -170,21 +246,8 @@ public class DeclarationVisitor extends DepthFirstAdapter {
 
     @Override
     public void outADefClasse(ADefClasse node) {
-        String className = node.getIdClasse().getText().trim();
-
-        // Verificar se algum método é abstrato (sem corpo)
-        Symbol classSym = symbolTable.lookupClass(className);
-        if (classSym != null) {
-            boolean hasAbstract = false;
-            for (Symbol member : classSym.getMembers()) {
-                if (member.isMethod() && member.isAbstract()) {
-                    hasAbstract = true;
-                    break;
-                }
-            }
-            classSym.setHasAbstractMethods(hasAbstract);
-        }
-
+        // Determinação de classe abstrata é feita em finalizeInheritance(),
+        // após a coleta de membros de todas as classes.
         symbolTable.popScope();
         symbolTable.setCurrentClassName(null);
         currentClassSymbol = null;
@@ -198,14 +261,10 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         int col = node.getId().getPos();
 
         // Validar que a classe existe
+        // (a verificação de instanciação de classe abstrata é feita no
+        //  SemanticCheckerVisitor, após finalizeInheritance())
         if (!symbolTable.classExists(className)) {
             error("Classe '" + className + "' nao foi declarada.", line, col);
-        } else {
-            // Validar que a classe não é abstrata
-            Symbol classSym = symbolTable.lookupClass(className);
-            if (classSym != null && classSym.hasAbstractMethods()) {
-                error("Nao e possivel instanciar a classe abstrata '" + className + "'.", line, col);
-            }
         }
 
         // Criar símbolo de objeto
@@ -224,8 +283,8 @@ public class DeclarationVisitor extends DepthFirstAdapter {
             return;
         }
 
-        // Se estamos dentro de uma classe, adicionar como membro
-        if (currentClassSymbol != null) {
+        // Somente atributos da classe (não objetos locais de métodos) viram membros
+        if (isClassAttributeContext()) {
             currentClassSymbol.getMembers().add(sym);
         }
     }
@@ -249,7 +308,7 @@ public class DeclarationVisitor extends DepthFirstAdapter {
             return;
         }
 
-        if (currentClassSymbol != null) {
+        if (isClassAttributeContext()) {
             currentClassSymbol.getMembers().add(sym);
         }
     }
@@ -273,7 +332,7 @@ public class DeclarationVisitor extends DepthFirstAdapter {
             return;
         }
 
-        if (currentClassSymbol != null) {
+        if (isClassAttributeContext()) {
             currentClassSymbol.getMembers().add(sym);
         }
     }
@@ -284,6 +343,8 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         int line = node.getId().getLine();
         int col = node.getId().getPos();
         boolean isEntry = node.getPontoEntrada() != null;
+
+        localDepth++;
 
         if (isEntry) {
             entryPointCount++;
@@ -301,24 +362,14 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         List<Symbol> params = extractParameters(node.getParametro());
         sym.setParameters(params);
 
-        // Verificar sobrescrita: se membro herdado existe, deve ter mesma assinatura
+        // Registrar como membro próprio da classe (sobrescrita/abstrato tratados
+        // em finalizeInheritance). Detecção de método duplicado na mesma classe:
         if (currentClassSymbol != null) {
-            Symbol inherited = findInheritedMethod(currentClassSymbol, methodName);
-            if (inherited != null) {
-                validateSignatureCompatibility(inherited, sym, line, col);
+            if (currentClassSymbol.findMember(methodName) != null) {
+                error("Metodo '" + methodName + "' ja foi declarado nesta classe.", line, col);
+            } else {
+                currentClassSymbol.getMembers().add(sym);
             }
-        }
-
-        // Remover membro herdado (abstrato) com mesmo nome, pois estamos implementando
-        if (currentClassSymbol != null) {
-            currentClassSymbol.getMembers().removeIf(
-                    m -> m.getName().equals(methodName) && m.isAbstract());
-            currentClassSymbol.getMembers().add(sym);
-        }
-
-        // Registrar no escopo atual (para checar dupla declaração de métodos)
-        if (!symbolTable.declare(sym)) {
-            error("Metodo '" + methodName + "' ja foi declarado nesta classe.", line, col);
         }
 
         // Empilhar escopo de método e declarar parâmetros
@@ -333,6 +384,7 @@ public class DeclarationVisitor extends DepthFirstAdapter {
     public void outAProcedimentoCmdMetodo(AProcedimentoCmdMetodo node) {
         symbolTable.popScope();
         symbolTable.setCurrentMethodName(null);
+        localDepth--;
     }
 
     @Override
@@ -340,6 +392,13 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         String methodName = node.getId().getText().trim();
         int line = node.getId().getLine();
         int col = node.getId().getPos();
+
+        // Um procedimento sem corpo não pode ser o ponto de entrada do programa.
+        if (node.getPontoEntrada() != null) {
+            entryPointCount++;
+            error("O ponto de entrada '>>' nao pode ser um procedimento abstrato " +
+                    "(sem corpo): '" + methodName + "'.", line, col);
+        }
 
         Symbol sym = new Symbol();
         sym.setName(methodName);
@@ -375,6 +434,8 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         Type returnType = Type.fromTipo(tipo);
         String returnClassName = Type.classNameFromTipo(tipo);
 
+        localDepth++;
+
         Symbol sym = new Symbol();
         sym.setName(methodName);
         sym.setType(returnType);
@@ -389,23 +450,14 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         List<Symbol> params = extractParameters(node.getParametro());
         sym.setParameters(params);
 
-        // Verificar sobrescrita
+        // Registrar como membro próprio da classe (sobrescrita/abstrato tratados
+        // em finalizeInheritance). Detecção de método duplicado na mesma classe:
         if (currentClassSymbol != null) {
-            Symbol inherited = findInheritedMethod(currentClassSymbol, methodName);
-            if (inherited != null) {
-                validateSignatureCompatibility(inherited, sym, line, col);
+            if (currentClassSymbol.findMember(methodName) != null) {
+                error("Metodo '" + methodName + "' ja foi declarado nesta classe.", line, col);
+            } else {
+                currentClassSymbol.getMembers().add(sym);
             }
-        }
-
-        // Remover membro abstrato herdado
-        if (currentClassSymbol != null) {
-            currentClassSymbol.getMembers().removeIf(
-                    m -> m.getName().equals(methodName) && m.isAbstract());
-            currentClassSymbol.getMembers().add(sym);
-        }
-
-        if (!symbolTable.declare(sym)) {
-            error("Metodo '" + methodName + "' ja foi declarado nesta classe.", line, col);
         }
 
         // Empilhar escopo
@@ -420,6 +472,7 @@ public class DeclarationVisitor extends DepthFirstAdapter {
     public void outAFuncaoExpMetodo(AFuncaoExpMetodo node) {
         symbolTable.popScope();
         symbolTable.setCurrentMethodName(null);
+        localDepth--;
     }
 
     @Override
@@ -462,21 +515,25 @@ public class DeclarationVisitor extends DepthFirstAdapter {
     @Override
     public void inABloco(ABloco node) {
         symbolTable.pushScope();
+        localDepth++;
     }
 
     @Override
     public void outABloco(ABloco node) {
         symbolTable.popScope();
+        localDepth--;
     }
 
     @Override
     public void inABlocoExp(ABlocoExp node) {
         symbolTable.pushScope();
+        localDepth++;
     }
 
     @Override
     public void outABlocoExp(ABlocoExp node) {
         symbolTable.popScope();
+        localDepth--;
     }
 
     /**

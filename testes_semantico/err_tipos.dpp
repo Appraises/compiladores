@@ -1,0 +1,18 @@
+{-
+    CASO DE ERRO — incompatibilidade de tipos.
+    Esperado:
+      * inicialização de 'x' (number) com 'yes' (answer)
+      * inicialização de 'b' (answer) com número
+      * atribuição de answer a 'x' (number)
+      * condição do 'in case that' que não é answer (5 + 3)
+-}
+family Foo start
+    alterable number x << yes.
+
+    >> procedure principal []
+    start
+        alterable answer b << 10.
+        x << no.
+        in case that (5 + 3) start finish
+    finish
+finish

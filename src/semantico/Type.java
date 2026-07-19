@@ -45,4 +45,18 @@ public enum Type {
         }
         return null;
     }
+
+    /**
+     * Descreve um tipo de forma legível para mensagens de erro.
+     * Para tipos CLASS, retorna o nome da classe (ex.: "Animal") em vez de "CLASS".
+     */
+    public static String describe(Type type, String className) {
+        if (type == null) {
+            return "?";
+        }
+        if (type == CLASS) {
+            return className != null ? className : "classe";
+        }
+        return type.name();
+    }
 }

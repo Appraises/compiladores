@@ -1,0 +1,26 @@
+{-
+    CASO DE ERRO — instanciação de classe abstrata.
+    Animal tem um método abstrato (sem corpo) 'som', logo não pode ser
+    instanciada. Cachorro herda 'som' mas NÃO o implementa, então também
+    permanece abstrata.
+    Esperado:
+      * erro ao declarar 'object Animal a'  (classe abstrata)
+      * erro ao declarar 'object Cachorro c' (herda método abstrato não implementado)
+-}
+family Cachorro derives from Animal.
+
+family Animal start
+    procedure som [] .
+finish
+
+family Cachorro start
+    alterable number patas << 4.
+finish
+
+family Zoologico start
+    object Animal a.
+    object Cachorro c.
+
+    >> procedure principal []
+    start finish
+finish

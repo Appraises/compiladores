@@ -1,0 +1,12 @@
+{-
+    CASO DE ERRO — múltiplos pontos de entrada.
+    Esperado: erro por existir mais de um procedimento marcado com '>>'.
+    (Um programa sem nenhum '>>' também é erro — vide atividade2.dpp.)
+-}
+family Foo start
+    >> procedure principal []
+    start finish
+
+    >> procedure outro []
+    start finish
+finish

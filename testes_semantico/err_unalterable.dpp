@@ -1,0 +1,12 @@
+{-
+    CASO DE ERRO — reatribuição de constante (unalterable).
+    Esperado: erro ao tentar reatribuir 'c'.
+-}
+family Foo start
+    unalterable number c << 10.
+
+    >> procedure principal []
+    start
+        c << 20.
+    finish
+finish

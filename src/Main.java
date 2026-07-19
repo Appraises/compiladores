@@ -36,7 +36,9 @@ public class Main {
             // Coleta de declarações
             SymbolTable symbolTable = new SymbolTable();
             DeclarationVisitor declVisitor = new DeclarationVisitor(symbolTable);
-            ast.apply(declVisitor);
+            declVisitor.collectClasses(ast);   // pré-passe: registra todas as classes
+            ast.apply(declVisitor);            // coleta membros de cada classe
+            declVisitor.finalizeInheritance(); // sobrescrita e classes abstratas
 
             if (declVisitor.hasErrors()) {
                 System.err.println("\n=== Erros na coleta de declaracoes ===");

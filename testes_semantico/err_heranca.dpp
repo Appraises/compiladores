@@ -1,0 +1,24 @@
+{-
+    CASO DE ERRO — regras de herança.
+    Esperado:
+      * herança múltipla: 'C' declarada com duas mães (A e B)
+      * classe mãe inexistente: 'D' deriva de 'Inexistente'
+-}
+family C derives from A & family C derives from B & family D derives from Inexistente.
+
+family A start
+    procedure fa [] start finish
+finish
+
+family B start
+    procedure fb [] start finish
+finish
+
+family C start
+    procedure fc [] start finish
+finish
+
+family D start
+    >> procedure principal []
+    start finish
+finish

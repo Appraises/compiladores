@@ -229,10 +229,12 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
 
         Type declaredType = Type.fromTipoPrimitivo(node.getTipoPrimitivo());
         Type expType = getType(node.getExp());
+        String expCN = getClassName(node.getExp());
 
         if (expType != null && expType != declaredType) {
             error("Tipo da expressao de inicializacao de '" + varName +
-                    "' incompativel: esperado " + declaredType + ", encontrado " + expType + ".", line, col);
+                    "' incompativel: esperado " + Type.describe(declaredType, null) +
+                    ", encontrado " + Type.describe(expType, expCN) + ".", line, col);
         }
 
         // Registrar no escopo
@@ -254,10 +256,12 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
 
         Type declaredType = Type.fromTipoPrimitivo(node.getTipoPrimitivo());
         Type expType = getType(node.getExp());
+        String expCN = getClassName(node.getExp());
 
         if (expType != null && expType != declaredType) {
             error("Tipo da expressao de inicializacao de '" + varName +
-                    "' incompativel: esperado " + declaredType + ", encontrado " + expType + ".", line, col);
+                    "' incompativel: esperado " + Type.describe(declaredType, null) +
+                    ", encontrado " + Type.describe(expType, expCN) + ".", line, col);
         }
 
         Symbol sym = new Symbol();
@@ -276,6 +280,14 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         int line = node.getId().getLine();
         int col = node.getId().getPos();
         String className = node.getIdClasse().getText().trim();
+
+        // Não é possível instanciar uma classe abstrata (com método abstrato
+        // próprio ou herdado sem implementação). hasAbstractMethods já foi
+        // calculado em DeclarationVisitor.finalizeInheritance().
+        Symbol classSym = symbolTable.lookupClass(className);
+        if (classSym != null && classSym.hasAbstractMethods()) {
+            error("Nao e possivel instanciar a classe abstrata '" + className + "'.", line, col);
+        }
 
         Symbol sym = new Symbol();
         sym.setName(varName);
@@ -424,7 +436,8 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
 
         if (lt != null && rt != null) {
             if (!typesCompatible(lt, lcn, rt, rcn) && !typesCompatible(rt, rcn, lt, lcn)) {
-                error("Operador '=' requer operandos do mesmo tipo: " + lt + " != " + rt + ".");
+                error("Operador '=' requer operandos do mesmo tipo: " +
+                        Type.describe(lt, lcn) + " != " + Type.describe(rt, rcn) + ".");
             }
         }
         annotate(node, Type.ANSWER);
@@ -486,7 +499,7 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
                 !typesCompatible(ifType, ifCN, elseType, elseCN) &&
                 !typesCompatible(elseType, elseCN, ifType, ifCN)) {
             error("Ramos do operador ternario devem ter tipos compativeis: " +
-                    ifType + " vs " + elseType + ".");
+                    Type.describe(ifType, ifCN) + " vs " + Type.describe(elseType, elseCN) + ".");
         }
 
         if (ifType != null) {
@@ -586,7 +599,8 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
 
         if (expType != null && !typesCompatible(sym.getType(), sym.getClassName(), expType, expCN)) {
             error("Tipo incompativel na atribuicao de '" + varName + "': esperado " +
-                    sym.getType() + ", encontrado " + expType + ".", line, col);
+                    Type.describe(sym.getType(), sym.getClassName()) +
+                    ", encontrado " + Type.describe(expType, expCN) + ".", line, col);
         }
     }
 
@@ -633,7 +647,8 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
 
         if (expType != null && !typesCompatible(member.getType(), member.getClassName(), expType, expCN)) {
             error("Tipo incompativel na atribuicao a '" + member.getName() +
-                    "': esperado " + member.getType() + ", encontrado " + expType + ".", line, col);
+                    "': esperado " + Type.describe(member.getType(), member.getClassName()) +
+                    ", encontrado " + Type.describe(expType, expCN) + ".", line, col);
         }
     }
 
@@ -828,8 +843,9 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
             if (argType != null && !typesCompatible(param.getType(), param.getClassName(),
                     argType, argCN)) {
                 error("Argumento " + (i + 1) + " do metodo '" + method.getName() +
-                        "' tem tipo incompativel: esperado " + param.getType() +
-                        ", encontrado " + argType + ".",
+                        "' tem tipo incompativel: esperado " +
+                        Type.describe(param.getType(), param.getClassName()) +
+                        ", encontrado " + Type.describe(argType, argCN) + ".",
                         chamada.getBase().getLine(), chamada.getBase().getPos());
             }
         }
