@@ -2,11 +2,7 @@ package semantico;
 
 import java.util.*;
 
-/**
- * Tabela de símbolos implementada como pilha de tabelas hash.
- * Gerencia escopos (global, classe, método, bloco) e armazena
- * definições de classes com seus membros e relações de herança.
- */
+// Tabela de símbolos implementada como pilha de tabelas hash.
 public class SymbolTable {
 
     // Pilha de escopos: cada escopo é um mapa nome -> símbolo
@@ -63,18 +59,14 @@ public class SymbolTable {
         inheritanceMap.put("Periphericals", "Root");
     }
 
-    // ==================== Gerenciamento de Escopos ====================
+    // Gerenciamento de Escopos
 
-    /**
-     * Empilha um novo escopo vazio.
-     */
+    // Empilha um novo escopo vazio
     public void pushScope() {
         scopeStack.push(new LinkedHashMap<>());
     }
 
-    /**
-     * Desempilha o escopo do topo.
-     */
+    // Desempilha o escopo do topo
     public Map<String, Symbol> popScope() {
         if (scopeStack.isEmpty()) {
             throw new RuntimeException("Tentativa de desempilhar escopo de pilha vazia.");
@@ -82,10 +74,8 @@ public class SymbolTable {
         return scopeStack.pop();
     }
 
-    /**
-     * Declara um símbolo no escopo atual.
-     * Retorna false se já existe um símbolo com o mesmo nome no escopo atual.
-     */
+    // Declara um símbolo no escopo atual.
+    // Retorna false se já existe um símbolo com o mesmo nome no escopo atual
     public boolean declare(Symbol symbol) {
         if (scopeStack.isEmpty()) {
             throw new RuntimeException("Nenhum escopo ativo para declaração.");
@@ -98,10 +88,8 @@ public class SymbolTable {
         return true;
     }
 
-    /**
-     * Busca um símbolo do topo para a base da pilha (respeita shadowing).
-     * Retorna null se não encontrado.
-     */
+    // Busca um símbolo do topo para a base da pilha (respeita shadowing).
+    // Retorna null se não encontrado
     public Symbol lookup(String name) {
         for (Map<String, Symbol> scope : scopeStack) {
             Symbol s = scope.get(name);
@@ -112,9 +100,7 @@ public class SymbolTable {
         return null;
     }
 
-    /**
-     * Busca apenas no escopo atual (para detectar dupla declaração).
-     */
+    // Busca apenas no escopo atual (para detectar dupla declaração)
     public Symbol lookupCurrentScope(String name) {
         if (scopeStack.isEmpty()) {
             return null;
@@ -122,12 +108,10 @@ public class SymbolTable {
         return scopeStack.peek().get(name);
     }
 
-    // ==================== Classes ====================
+    // Classes
 
-    /**
-     * Registra uma definição de classe no mapa global.
-     * Retorna false se já existe.
-     */
+    // Registra uma definição de classe no mapa global.
+    // Retorna false se já existe
     public boolean registerClass(Symbol classSymbol) {
         if (classMap.containsKey(classSymbol.getName())) {
             return false;
@@ -136,46 +120,34 @@ public class SymbolTable {
         return true;
     }
 
-    /**
-     * Busca uma classe pelo nome.
-     */
+    // Busca uma classe pelo nome
     public Symbol lookupClass(String className) {
         return classMap.get(className);
     }
 
-    /**
-     * Verifica se uma classe existe.
-     */
+    // Verifica se uma classe existe
     public boolean classExists(String className) {
         return classMap.containsKey(className);
     }
 
-    /**
-     * Retorna todas as classes registradas.
-     */
+    // Retorna todas as classes registradas
     public Collection<Symbol> getAllClasses() {
         return classMap.values();
     }
 
-    // ==================== Herança ====================
+    // Herança
 
-    /**
-     * Registra relação de herança: filha derives from mãe.
-     */
+    // Registra relação de herança: filha derives from mãe
     public void registerInheritance(String childClass, String parentClass) {
         inheritanceMap.put(childClass, parentClass);
     }
 
-    /**
-     * Retorna a classe mãe de uma classe, ou null se for Root.
-     */
+    // Retorna a classe mãe de uma classe, ou null se for Root
     public String getParentClass(String className) {
         return inheritanceMap.get(className);
     }
 
-    /**
-     * Retorna a cadeia de ancestrais de uma classe (da mãe até Root).
-     */
+    // Retorna a cadeia de ancestrais de uma classe (da mãe até Root)
     public List<String> getAncestorChain(String className) {
         List<String> chain = new ArrayList<>();
         String current = inheritanceMap.get(className);
@@ -189,9 +161,7 @@ public class SymbolTable {
         return chain;
     }
 
-    /**
-     * Verifica se existe herança circular.
-     */
+    // Verifica se existe herança circular
     public boolean hasCircularInheritance(String className) {
         Set<String> visited = new HashSet<>();
         String current = className;
@@ -205,9 +175,7 @@ public class SymbolTable {
         return false;
     }
 
-    /**
-     * Verifica se childClass é (direta ou indiretamente) filha de parentClass.
-     */
+    // Verifica se childClass é (direta ou indiretamente) filha de parentClass
     public boolean isSubclassOf(String childClass, String parentClass) {
         if (childClass == null || parentClass == null) return false;
         if (childClass.equals(parentClass)) return true;
@@ -222,12 +190,10 @@ public class SymbolTable {
         return false;
     }
 
-    // ==================== Resolução de Membros ====================
+    // Resolução de Membros
 
-    /**
-     * Busca um membro (atributo ou método) na classe e seus ancestrais.
-     * Retorna null se não encontrado.
-     */
+    // Busca um membro (atributo ou método) na classe e seus ancestrais.
+    // Retorna null se não encontrado
     public Symbol lookupMember(String className, String memberName) {
         String current = className;
         Set<String> visited = new HashSet<>();
@@ -245,7 +211,7 @@ public class SymbolTable {
         return null;
     }
 
-    // ==================== Contexto ====================
+    // Contexto
 
     public String getCurrentClassName() {
         return currentClassName;
@@ -263,10 +229,8 @@ public class SymbolTable {
         this.currentMethodName = currentMethodName;
     }
 
-    /**
-     * Verifica se dois tipos são compatíveis para atribuição.
-     * Considera polimorfismo: filha pode ser atribuída a variável do tipo mãe.
-     */
+    // Verifica se dois tipos são compatíveis para atribuição.
+    // Considera polimorfismo: filha pode ser atribuída a variável do tipo mãe.
     public boolean isTypeCompatible(Type targetType, String targetClassName,
                                      Type sourceType, String sourceClassName) {
         if (targetType != sourceType) {
