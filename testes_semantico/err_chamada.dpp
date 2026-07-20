@@ -1,10 +1,5 @@
-{-
-    CASO DE ERRO — chamadas de método e acesso a atributos.
-    Esperado:
-      * aridade errada: 'mover' espera 2 argumentos, recebe 1
-      * tipo de argumento errado: passar answer onde se espera number
-      * acesso a atributo privado de outro objeto via '->' ('vida' de Heroi)
--}
+-- CASO DE ERRO — chamadas de método e acesso a atributos
+
 family Heroi start
     alterable number vida << 100.
 

@@ -1,11 +1,5 @@
-{-
-    CASO DE ERRO — incompatibilidade de tipos.
-    Esperado:
-      * inicialização de 'x' (number) com 'yes' (answer)
-      * inicialização de 'b' (answer) com número
-      * atribuição de answer a 'x' (number)
-      * condição do 'in case that' que não é answer (5 + 3)
--}
+-- CASO DE ERRO — incompatibilidade de tipos
+
 family Foo start
     alterable number x << yes.
 

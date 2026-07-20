@@ -1,9 +1,5 @@
-{-
-    CASO DE ERRO — regras de herança.
-    Esperado:
-      * herança múltipla: 'C' declarada com duas mães (A e B)
-      * classe mãe inexistente: 'D' deriva de 'Inexistente'
--}
+-- CASO DE ERRO — regras de herança
+
 family C derives from A & family C derives from B & family D derives from Inexistente.
 
 family A start

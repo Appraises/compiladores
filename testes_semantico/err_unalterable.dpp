@@ -1,7 +1,5 @@
-{-
-    CASO DE ERRO — reatribuição de constante (unalterable).
-    Esperado: erro ao tentar reatribuir 'c'.
--}
+-- CASO DE ERRO — reatribuição de constante (unalterable)
+
 family Foo start
     unalterable number c << 10.
 

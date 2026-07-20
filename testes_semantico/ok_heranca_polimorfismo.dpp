@@ -1,11 +1,4 @@
-{-
-    CASO VÁLIDO — deve passar na análise semântica.
-    Demonstra: herança, polimorfismo (subclasse aceita onde a mãe é esperada),
-    método abstrato implementado pela filha, chamadas encadeadas com '->',
-    e uso da classe pré-definida Periphericals (show / capture).
-    Observação: a classe filha Gato é declarada ANTES da mãe Animal,
-    exercitando o registro de classes independente da ordem textual.
--}
+-- CASO VÁLIDO — deve passar na análise semântica
 
 family Gato derives from Animal & family Cachorro derives from Animal.
 
