@@ -92,18 +92,8 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         symbolTable.popScope();
     }
 
-    // =========================================================
-    // Pré-passe: registro de classes e herança (independente de ordem)
-    // =========================================================
-
-    /**
-     * Primeiro passe: registra TODAS as classes e suas relações de herança
-     * antes de qualquer resolução de membros. Isso torna a análise independente
-     * da ordem textual das declarações de classe (uma classe filha pode ser
-     * declarada antes da sua classe mãe no arquivo).
-     */
     public void collectClasses(Node ast) {
-        // 1. Registrar relações de herança (genealogia) e símbolos de classe
+        // Registrar relações de herança (genealogia) e símbolos de classe
         ast.apply(new DepthFirstAdapter() {
             @Override
             public void caseAGenealogia(AGenealogia node) {
@@ -154,7 +144,7 @@ public class DeclarationVisitor extends DepthFirstAdapter {
             }
         });
 
-        // 2. Com todas as classes registradas, validar mãe-existe e herança circular
+        // Validar mãe-existe e herança circular
         for (Symbol classSym : symbolTable.getAllClasses()) {
             String className = classSym.getName();
             if (className.equals("Root") || className.equals("Periphericals")) {
@@ -172,12 +162,6 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         }
     }
 
-    /**
-     * Passe final: executado após a coleta de membros de TODAS as classes.
-     * Valida sobrescrita de métodos e determina quais classes são abstratas
-     * (considerando métodos abstratos herdados e não implementados).
-     * Independente da ordem textual das classes.
-     */
     public void finalizeInheritance() {
         for (Symbol classSym : symbolTable.getAllClasses()) {
             String className = classSym.getName();
@@ -200,11 +184,6 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         }
     }
 
-    /**
-     * Determina se uma classe é abstrata: para cada nome de método visível
-     * (próprio ou herdado), a declaração mais derivada (a que prevalece) é
-     * abstrata? Se sim, a classe não pode ser instanciada.
-     */
     private boolean computeIsAbstract(String className) {
         Set<String> methodNames = new LinkedHashSet<>();
         Symbol classSym = symbolTable.lookupClass(className);
@@ -536,9 +515,6 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         localDepth--;
     }
 
-    /**
-     * Busca um método herdado (não na própria classe, mas nos ancestrais).
-     */
     private Symbol findInheritedMethod(Symbol classSym, String methodName) {
         String parentName = classSym.getParentClassName();
         if (parentName == null) return null;
@@ -556,10 +532,6 @@ public class DeclarationVisitor extends DepthFirstAdapter {
         return null;
     }
 
-    /**
-     * Valida que a assinatura do método sobrescrito é compatível com a do herdado.
-     * D++ não permite sobrecarga, então a assinatura deve ser idêntica.
-     */
     private void validateSignatureCompatibility(Symbol inherited, Symbol override,
                                                 int line, int col) {
         List<Symbol> ip = inherited.getParameters();

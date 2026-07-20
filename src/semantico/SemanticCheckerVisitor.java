@@ -6,22 +6,6 @@ import dplusplus.node.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Visitor 2 — Verificação Semântica e de Tipos.
- *
- * Opera sobre a AST com a SymbolTable já populada pelo DeclarationVisitor.
- * Usa setOut(node, Type) / getOut(node) herdados do AnalysisAdapter para
- * anotar o tipo inferido de cada nó de expressão (padrão SableCC thesis §6.5).
- *
- * Verificações:
- * - Compatibilidade de tipos em expressões (aritméticas, booleanas, relacionais)
- * - Tipos em declarações (exp de inicialização)
- * - Mutabilidade (unalterable não pode ser reatribuído)
- * - Condições de if/while devem ser ANSWER
- * - Chamadas de método: existência, aridade e tipos de argumentos
- * - Acessos -> : visibilidade (atributos são privados fora da classe)
- * - Compatibilidade polimórfica
- */
 public class SemanticCheckerVisitor extends DepthFirstAdapter {
 
     private final SymbolTable symbolTable;
@@ -43,10 +27,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         return errors;
     }
 
-    // =========================================================
-    // Utilitários
-    // =========================================================
-
     private void error(String msg, int line, int col) {
         errors.add(new SemanticError(msg, line, col));
     }
@@ -55,32 +35,32 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         errors.add(new SemanticError(msg));
     }
 
-    /** Obtém o tipo anotado de um nó (via setOut). */
+    // Obtém o tipo anotado de um nó (via setOut).
     private Type typeOf(Node node) {
         Object val = getOut(node);
         if (val instanceof Type) return (Type) val;
         return null;
     }
 
-    /** Obtém o nome de classe anotado de um nó (via setOut com prefixo "C:"). */
+    // Obtém o nome de classe anotado de um nó (via setOut com prefixo "C:").
     private String classNameOf(Node node) {
         Object val = getOut(node);
         if (val instanceof String) return (String) val;
         return null;
     }
 
-    /** Anota tipo simples no nó. */
+    // Anota tipo simples no nó.
     private void annotate(Node node, Type type) {
         setOut(node, type);
     }
 
-    /** Anota tipo CLASS com nome de classe no nó usando dois campos. */
+    // Anota tipo CLASS com nome de classe no nó usando dois campos.
     private void annotateClass(Node node, String className) {
         setOut(node, className); // className stored as String
         setIn(node, Type.CLASS); // type stored in setIn
     }
 
-    /** Obtém o tipo de forma unificada (tanto primitivo quanto CLASS). */
+    // Obtém o tipo de forma unificada (tanto primitivo quanto CLASS).
     private Type getType(Node node) {
         Object inVal = getIn(node);
         if (inVal instanceof Type) return (Type) inVal;
@@ -90,7 +70,7 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         return null;
     }
 
-    /** Obtém o className de um nó seja de que forma for anotado. */
+    // Obtém o className de um nó seja de que forma for anotado.
     private String getClassName(Node node) {
         Object inVal = getIn(node);
         if (inVal instanceof Type) {
@@ -101,9 +81,7 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         return null;
     }
 
-    /**
-     * Verifica se dois tipos são compatíveis (inclui polimorfismo).
-     */
+    // Verifica se dois tipos são compatíveis (inclui polimorfismo)
     private boolean typesCompatible(Type t1, String cn1, Type t2, String cn2) {
         if (t1 == null || t2 == null) return true; // erro já reportado antes
         if (t1 != t2) return false;
@@ -114,10 +92,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
         return true;
     }
-
-    // =========================================================
-    // Gerenciamento de escopos (espelha DeclarationVisitor)
-    // =========================================================
 
     @Override
     public void inAPrograma(APrograma node) {
@@ -217,10 +191,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         symbolTable.popScope();
     }
 
-    // =========================================================
-    // Declarações de variáveis dentro de blocos
-    // =========================================================
-
     @Override
     public void outAVarDeclaracao(AVarDeclaracao node) {
         String varName = node.getId().getText().trim();
@@ -300,10 +270,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         symbolTable.declare(sym);
     }
 
-    // =========================================================
-    // Expressões — Literais
-    // =========================================================
-
     @Override
     public void outAInteiroExp(AInteiroExp node) {
         annotate(node, Type.NUMBER);
@@ -324,10 +290,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         annotate(node, Type.ANSWER);
     }
 
-    // =========================================================
-    // Expressões — Identificador
-    // =========================================================
-
     @Override
     public void outAIdExp(AIdExp node) {
         String name = node.getId().getText().trim();
@@ -344,15 +306,13 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
     }
 
-    /**
-     * Busca um identificador no escopo local + membros da classe atual + ancestrais.
-     */
+    // Busca um identificador no escopo local + membros da classe atual + ancestrais
     private Symbol resolveIdentifier(String name, int line, int col) {
-        // 1. Escopo de variáveis locais / parâmetros
+        // Escopo de variáveis locais / parâmetros
         Symbol sym = symbolTable.lookup(name);
         if (sym != null) return sym;
 
-        // 2. Membro da classe corrente e seus ancestrais
+        // Membro da classe corrente e seus ancestrais
         String currentClass = symbolTable.getCurrentClassName();
         if (currentClass != null) {
             sym = symbolTable.lookupMember(currentClass, name);
@@ -362,10 +322,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         error("Identificador '" + name + "' nao foi declarado.", line, col);
         return null;
     }
-
-    // =========================================================
-    // Expressões — Aritméticas
-    // =========================================================
 
     @Override
     public void outASomaExp(ASomaExp node) {
@@ -411,10 +367,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
     }
 
-    // =========================================================
-    // Expressões — Relacionais
-    // =========================================================
-
     @Override
     public void outAMenorExp(AMenorExp node) {
         checkBinaryNumeric(node, node.getEsq(), node.getDir(), "<");
@@ -442,10 +394,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
         annotate(node, Type.ANSWER);
     }
-
-    // =========================================================
-    // Expressões — Booleanas
-    // =========================================================
 
     @Override
     public void outAAndExp(AAndExp node) {
@@ -479,10 +427,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
     }
 
-    // =========================================================
-    // Expressões — Ternário
-    // =========================================================
-
     @Override
     public void outATernarioExp(ATernarioExp node) {
         Type cond = getType(node.getCondicao());
@@ -511,10 +455,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
     }
 
-    // =========================================================
-    // Expressões — Chamada de método como expressão
-    // =========================================================
-
     @Override
     public void outAChamadaExp(AChamadaExp node) {
         if (node.getChamada() instanceof AChamada) {
@@ -536,10 +476,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
     }
 
-    // =========================================================
-    // Expressões — Acesso (ID.->atributo)
-    // =========================================================
-
     @Override
     public void outAAcessoExp(AAcessoExp node) {
         if (node.getAcesso() instanceof AAcesso) {
@@ -554,10 +490,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
             }
         }
     }
-
-    // =========================================================
-    // Expressões — Bloco com retorno
-    // =========================================================
 
     @Override
     public void outABlocoRetornoExp(ABlocoRetornoExp node) {
@@ -574,10 +506,6 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
             }
         }
     }
-
-    // =========================================================
-    // Comandos
-    // =========================================================
 
     @Override
     public void outAAtribuicaoComando(AAtribuicaoComando node) {
@@ -679,14 +607,9 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         }
     }
 
-    // =========================================================
-    // Resolução de chamadas e acessos
-    // =========================================================
-
-    /**
-     * Resolve uma chamada (base.->.acessos[args]) e retorna o símbolo do método.
-     * Suporta chamadas encadeadas: obj->metodo[] ou a->b->c[].
-     */
+    
+    // Resolve uma chamada (base.->.acessos[args]) e retorna o símbolo do método
+    // Suporta chamadas encadeadas: obj->metodo[] ou a->b->c[]
     private Symbol resolveChamada(AChamada chamada) {
         String baseName = chamada.getBase().getText().trim();
         int line = chamada.getBase().getLine();
@@ -754,9 +677,7 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         return method;
     }
 
-    /**
-     * Resolve um acesso a atributo (base.->acessos) e retorna o símbolo do membro final.
-     */
+    // Resolve um acesso a atributo (base.->acessos) e retorna o símbolo do membro final
     private Symbol resolveAcesso(AAcesso acesso) {
         String baseName = acesso.getBase().getText().trim();
         int line = acesso.getBase().getLine();
@@ -808,9 +729,7 @@ public class SemanticCheckerVisitor extends DepthFirstAdapter {
         return lastMember;
     }
 
-    /**
-     * Valida a aridade e os tipos dos argumentos de uma chamada.
-     */
+    // Valida a aridade e os tipos dos argumentos de uma chamada
     private void validateArguments(AChamada chamada, Symbol method) {
         List<PExp> args = chamada.getArgumentos();
         List<Symbol> params = method.getParameters();

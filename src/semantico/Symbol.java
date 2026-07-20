@@ -3,14 +3,9 @@ package semantico;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Encapsula todas as informações de um identificador declarado na linguagem D++.
- */
 public class Symbol {
 
-    /**
-     * Categorias de símbolos na linguagem D++.
-     */
+    // Categorias de símbolos na linguagem D++
     public enum SymbolKind {
         VARIABLE,    // alterable tipo id << exp
         CONSTANT,    // unalterable tipo id << exp
@@ -46,17 +41,12 @@ public class Symbol {
         this.parentClassName = "Root";
     }
 
-    /**
-     * Construtor de conveniência para símbolos simples.
-     */
     public Symbol(String name, Type type, SymbolKind kind) {
         this();
         this.name = name;
         this.type = type;
         this.kind = kind;
     }
-
-    // --- Getters e Setters ---
 
     public String getName() {
         return name;
@@ -178,9 +168,6 @@ public class Symbol {
         this.members = members;
     }
 
-    /**
-     * Procura um membro pelo nome na lista de membros desta classe.
-     */
     public Symbol findMember(String memberName) {
         for (Symbol m : members) {
             if (m.getName().equals(memberName)) {
@@ -190,16 +177,10 @@ public class Symbol {
         return null;
     }
 
-    /**
-     * Verifica se é um método (procedure ou function).
-     */
     public boolean isMethod() {
         return kind == SymbolKind.PROCEDURE || kind == SymbolKind.FUNCTION;
     }
 
-    /**
-     * Verifica se é um atributo (variable, constant, ou object).
-     */
     public boolean isAttribute() {
         return kind == SymbolKind.VARIABLE || kind == SymbolKind.CONSTANT || kind == SymbolKind.OBJECT;
     }

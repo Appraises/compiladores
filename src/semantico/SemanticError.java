@@ -1,8 +1,5 @@
 package semantico;
 
-/**
- * Classe simples para acumular erros semânticos com posição no código-fonte.
- */
 public class SemanticError {
     private final String message;
     private final int line;
