@@ -34,5 +34,5 @@ family Inimigo start
     start
         unalterable number multiplicador << 2.
         dano_base * multiplicador
-    finish .
+    finish 
 finish
