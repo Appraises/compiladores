@@ -7,7 +7,7 @@ import dplusplus.node.*;
 @SuppressWarnings("serial")
 public class ParserException extends Exception
 {
-    private Token token;
+    Token token;
 
     public ParserException(@SuppressWarnings("hiding") Token token, String  message)
     {

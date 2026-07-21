@@ -165,9 +165,656 @@ public class Parser
                     }
 		    break;
                 case REDUCE:
+                    switch(this.action[1])
                     {
-                        int reduction = this.action[1];
-                        if(reduction < 500) reduce_0(reduction);
+                    case 0: /* reduce AAprograma1Programa */
+		    {
+			ArrayList<Object> list = new0();
+			push(goTo(0), list);
+		    }
+		    break;
+                    case 1: /* reduce AAprograma2Programa */
+		    {
+			ArrayList<Object> list = new1();
+			push(goTo(0), list);
+		    }
+		    break;
+                    case 2: /* reduce AAgenealogia1Genealogia */
+		    {
+			ArrayList<Object> list = new2();
+			push(goTo(1), list);
+		    }
+		    break;
+                    case 3: /* reduce AAgenealogia2Genealogia */
+		    {
+			ArrayList<Object> list = new3();
+			push(goTo(1), list);
+		    }
+		    break;
+                    case 4: /* reduce AListaRelacoes */
+		    {
+			ArrayList<Object> list = new4();
+			push(goTo(2), list);
+		    }
+		    break;
+                    case 5: /* reduce ARelacao */
+		    {
+			ArrayList<Object> list = new5();
+			push(goTo(3), list);
+		    }
+		    break;
+                    case 6: /* reduce ADefClasse */
+		    {
+			ArrayList<Object> list = new6();
+			push(goTo(4), list);
+		    }
+		    break;
+                    case 7: /* reduce AAatributos1Atributos */
+		    {
+			ArrayList<Object> list = new7();
+			push(goTo(5), list);
+		    }
+		    break;
+                    case 8: /* reduce AAatributos2Atributos */
+		    {
+			ArrayList<Object> list = new8();
+			push(goTo(5), list);
+		    }
+		    break;
+                    case 9: /* reduce AObjDeclaracao */
+		    {
+			ArrayList<Object> list = new9();
+			push(goTo(6), list);
+		    }
+		    break;
+                    case 10: /* reduce AVarDeclaracao */
+		    {
+			ArrayList<Object> list = new10();
+			push(goTo(6), list);
+		    }
+		    break;
+                    case 11: /* reduce AConsDeclaracao */
+		    {
+			ArrayList<Object> list = new11();
+			push(goTo(6), list);
+		    }
+		    break;
+                    case 12: /* reduce ADecObj */
+		    {
+			ArrayList<Object> list = new12();
+			push(goTo(7), list);
+		    }
+		    break;
+                    case 13: /* reduce ADecVar */
+		    {
+			ArrayList<Object> list = new13();
+			push(goTo(8), list);
+		    }
+		    break;
+                    case 14: /* reduce ADecCons */
+		    {
+			ArrayList<Object> list = new14();
+			push(goTo(9), list);
+		    }
+		    break;
+                    case 15: /* reduce AAnswerTipoPrimitivo */
+		    {
+			ArrayList<Object> list = new15();
+			push(goTo(10), list);
+		    }
+		    break;
+                    case 16: /* reduce ANumberTipoPrimitivo */
+		    {
+			ArrayList<Object> list = new16();
+			push(goTo(10), list);
+		    }
+		    break;
+                    case 17: /* reduce AAmetodos1Metodos */
+		    {
+			ArrayList<Object> list = new17();
+			push(goTo(11), list);
+		    }
+		    break;
+                    case 18: /* reduce AAmetodos2Metodos */
+		    {
+			ArrayList<Object> list = new18();
+			push(goTo(11), list);
+		    }
+		    break;
+                    case 19: /* reduce AProcedimentoMetodo */
+		    {
+			ArrayList<Object> list = new19();
+			push(goTo(12), list);
+		    }
+		    break;
+                    case 20: /* reduce AFuncaoMetodo */
+		    {
+			ArrayList<Object> list = new20();
+			push(goTo(12), list);
+		    }
+		    break;
+                    case 21: /* reduce AAcomcomandodecprocedimento1DecProcedimento */
+		    {
+			ArrayList<Object> list = new21();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 22: /* reduce AAcomcomandodecprocedimento2DecProcedimento */
+		    {
+			ArrayList<Object> list = new22();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 23: /* reduce AAcomcomandodecprocedimento3DecProcedimento */
+		    {
+			ArrayList<Object> list = new23();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 24: /* reduce AAcomcomandodecprocedimento4DecProcedimento */
+		    {
+			ArrayList<Object> list = new24();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 25: /* reduce AAvaziodecprocedimento1DecProcedimento */
+		    {
+			ArrayList<Object> list = new25();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 26: /* reduce AAvaziodecprocedimento2DecProcedimento */
+		    {
+			ArrayList<Object> list = new26();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 27: /* reduce AAvaziodecprocedimento3DecProcedimento */
+		    {
+			ArrayList<Object> list = new27();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 28: /* reduce AAvaziodecprocedimento4DecProcedimento */
+		    {
+			ArrayList<Object> list = new28();
+			push(goTo(13), list);
+		    }
+		    break;
+                    case 29: /* reduce AAcomexpdecfuncao1DecFuncao */
+		    {
+			ArrayList<Object> list = new29();
+			push(goTo(14), list);
+		    }
+		    break;
+                    case 30: /* reduce AAcomexpdecfuncao2DecFuncao */
+		    {
+			ArrayList<Object> list = new30();
+			push(goTo(14), list);
+		    }
+		    break;
+                    case 31: /* reduce AAvaziadecfuncao1DecFuncao */
+		    {
+			ArrayList<Object> list = new31();
+			push(goTo(14), list);
+		    }
+		    break;
+                    case 32: /* reduce AAvaziadecfuncao2DecFuncao */
+		    {
+			ArrayList<Object> list = new32();
+			push(goTo(14), list);
+		    }
+		    break;
+                    case 33: /* reduce AClasseTipo */
+		    {
+			ArrayList<Object> list = new33();
+			push(goTo(15), list);
+		    }
+		    break;
+                    case 34: /* reduce APrimitivoTipo */
+		    {
+			ArrayList<Object> list = new34();
+			push(goTo(15), list);
+		    }
+		    break;
+                    case 35: /* reduce AAlistaparametros1ListaParametros */
+		    {
+			ArrayList<Object> list = new35();
+			push(goTo(16), list);
+		    }
+		    break;
+                    case 36: /* reduce AAlistaparametros2ListaParametros */
+		    {
+			ArrayList<Object> list = new36();
+			push(goTo(16), list);
+		    }
+		    break;
+                    case 37: /* reduce AParametroExtra */
+		    {
+			ArrayList<Object> list = new37();
+			push(goTo(17), list);
+		    }
+		    break;
+                    case 38: /* reduce AParametro */
+		    {
+			ArrayList<Object> list = new38();
+			push(goTo(18), list);
+		    }
+		    break;
+                    case 39: /* reduce AFechadoComando */
+		    {
+			ArrayList<Object> list = new39();
+			push(goTo(19), list);
+		    }
+		    break;
+                    case 40: /* reduce AAbertoComando */
+		    {
+			ArrayList<Object> list = new40();
+			push(goTo(19), list);
+		    }
+		    break;
+                    case 41: /* reduce ACondicionalElseComandoFechado */
+		    {
+			ArrayList<Object> list = new41();
+			push(goTo(20), list);
+		    }
+		    break;
+                    case 42: /* reduce ALacoComandoFechado */
+		    {
+			ArrayList<Object> list = new42();
+			push(goTo(20), list);
+		    }
+		    break;
+                    case 43: /* reduce AAtribuicaoComandoFechado */
+		    {
+			ArrayList<Object> list = new43();
+			push(goTo(20), list);
+		    }
+		    break;
+                    case 44: /* reduce AAtribuicaoObjComandoFechado */
+		    {
+			ArrayList<Object> list = new44();
+			push(goTo(20), list);
+		    }
+		    break;
+                    case 45: /* reduce ABlocoComandoFechado */
+		    {
+			ArrayList<Object> list = new45();
+			push(goTo(20), list);
+		    }
+		    break;
+                    case 46: /* reduce AChamadaComandoFechado */
+		    {
+			ArrayList<Object> list = new46();
+			push(goTo(20), list);
+		    }
+		    break;
+                    case 47: /* reduce ACondicionalComandoAberto */
+		    {
+			ArrayList<Object> list = new47();
+			push(goTo(21), list);
+		    }
+		    break;
+                    case 48: /* reduce ACondicionalElseComandoAberto */
+		    {
+			ArrayList<Object> list = new48();
+			push(goTo(21), list);
+		    }
+		    break;
+                    case 49: /* reduce ALacoComandoAberto */
+		    {
+			ArrayList<Object> list = new49();
+			push(goTo(21), list);
+		    }
+		    break;
+                    case 50: /* reduce ABloco */
+		    {
+			ArrayList<Object> list = new50();
+			push(goTo(22), list);
+		    }
+		    break;
+                    case 51: /* reduce AAlistacomandos1ListaComandos */
+		    {
+			ArrayList<Object> list = new51();
+			push(goTo(23), list);
+		    }
+		    break;
+                    case 52: /* reduce AAlistacomandos2ListaComandos */
+		    {
+			ArrayList<Object> list = new52();
+			push(goTo(23), list);
+		    }
+		    break;
+                    case 53: /* reduce AAchamada1Chamada */
+		    {
+			ArrayList<Object> list = new53();
+			push(goTo(24), list);
+		    }
+		    break;
+                    case 54: /* reduce AAchamada2Chamada */
+		    {
+			ArrayList<Object> list = new54();
+			push(goTo(24), list);
+		    }
+		    break;
+                    case 55: /* reduce AAchamada3Chamada */
+		    {
+			ArrayList<Object> list = new55();
+			push(goTo(24), list);
+		    }
+		    break;
+                    case 56: /* reduce AAchamada4Chamada */
+		    {
+			ArrayList<Object> list = new56();
+			push(goTo(24), list);
+		    }
+		    break;
+                    case 57: /* reduce AAlistaexp1ListaExp */
+		    {
+			ArrayList<Object> list = new57();
+			push(goTo(25), list);
+		    }
+		    break;
+                    case 58: /* reduce AAlistaexp2ListaExp */
+		    {
+			ArrayList<Object> list = new58();
+			push(goTo(25), list);
+		    }
+		    break;
+                    case 59: /* reduce AExpExtra */
+		    {
+			ArrayList<Object> list = new59();
+			push(goTo(26), list);
+		    }
+		    break;
+                    case 60: /* reduce AAcessoExtra */
+		    {
+			ArrayList<Object> list = new60();
+			push(goTo(27), list);
+		    }
+		    break;
+                    case 61: /* reduce AAcesso */
+		    {
+			ArrayList<Object> list = new61();
+			push(goTo(28), list);
+		    }
+		    break;
+                    case 62: /* reduce ABlocoExp */
+		    {
+			ArrayList<Object> list = new62();
+			push(goTo(29), list);
+		    }
+		    break;
+                    case 63: /* reduce ATernarioExp */
+		    {
+			ArrayList<Object> list = new63();
+			push(goTo(30), list);
+		    }
+		    break;
+                    case 64: /* reduce AOrExp */
+		    {
+			ArrayList<Object> list = new64();
+			push(goTo(30), list);
+		    }
+		    break;
+                    case 65: /* reduce AOrExpOr */
+		    {
+			ArrayList<Object> list = new65();
+			push(goTo(31), list);
+		    }
+		    break;
+                    case 66: /* reduce AAndExpOr */
+		    {
+			ArrayList<Object> list = new66();
+			push(goTo(31), list);
+		    }
+		    break;
+                    case 67: /* reduce AAndExpAnd */
+		    {
+			ArrayList<Object> list = new67();
+			push(goTo(32), list);
+		    }
+		    break;
+                    case 68: /* reduce AIgualExpAnd */
+		    {
+			ArrayList<Object> list = new68();
+			push(goTo(32), list);
+		    }
+		    break;
+                    case 69: /* reduce AIgualExpIgual */
+		    {
+			ArrayList<Object> list = new69();
+			push(goTo(33), list);
+		    }
+		    break;
+                    case 70: /* reduce ARelacionalExpIgual */
+		    {
+			ArrayList<Object> list = new70();
+			push(goTo(33), list);
+		    }
+		    break;
+                    case 71: /* reduce AMenorExpRelacional */
+		    {
+			ArrayList<Object> list = new71();
+			push(goTo(34), list);
+		    }
+		    break;
+                    case 72: /* reduce AMaiorExpRelacional */
+		    {
+			ArrayList<Object> list = new72();
+			push(goTo(34), list);
+		    }
+		    break;
+                    case 73: /* reduce ASomaExpRelacional */
+		    {
+			ArrayList<Object> list = new73();
+			push(goTo(34), list);
+		    }
+		    break;
+                    case 74: /* reduce ASomaExpSoma */
+		    {
+			ArrayList<Object> list = new74();
+			push(goTo(35), list);
+		    }
+		    break;
+                    case 75: /* reduce ASubtracaoExpSoma */
+		    {
+			ArrayList<Object> list = new75();
+			push(goTo(35), list);
+		    }
+		    break;
+                    case 76: /* reduce AMultExpSoma */
+		    {
+			ArrayList<Object> list = new76();
+			push(goTo(35), list);
+		    }
+		    break;
+                    case 77: /* reduce AMultExpMult */
+		    {
+			ArrayList<Object> list = new77();
+			push(goTo(36), list);
+		    }
+		    break;
+                    case 78: /* reduce ADivisaoExpMult */
+		    {
+			ArrayList<Object> list = new78();
+			push(goTo(36), list);
+		    }
+		    break;
+                    case 79: /* reduce AUnariaExpMult */
+		    {
+			ArrayList<Object> list = new79();
+			push(goTo(36), list);
+		    }
+		    break;
+                    case 80: /* reduce ANegacaoExpUnaria */
+		    {
+			ArrayList<Object> list = new80();
+			push(goTo(37), list);
+		    }
+		    break;
+                    case 81: /* reduce ANegativoExpUnaria */
+		    {
+			ArrayList<Object> list = new81();
+			push(goTo(37), list);
+		    }
+		    break;
+                    case 82: /* reduce ATermoExpUnaria */
+		    {
+			ArrayList<Object> list = new82();
+			push(goTo(37), list);
+		    }
+		    break;
+                    case 83: /* reduce AInteiroTermo */
+		    {
+			ArrayList<Object> list = new83();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 84: /* reduce ARealTermo */
+		    {
+			ArrayList<Object> list = new84();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 85: /* reduce AYesTermo */
+		    {
+			ArrayList<Object> list = new85();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 86: /* reduce ANoTermo */
+		    {
+			ArrayList<Object> list = new86();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 87: /* reduce AIdTermo */
+		    {
+			ArrayList<Object> list = new87();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 88: /* reduce AAcessoTermo */
+		    {
+			ArrayList<Object> list = new88();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 89: /* reduce AChamadaTermo */
+		    {
+			ArrayList<Object> list = new89();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 90: /* reduce ABlocoTermo */
+		    {
+			ArrayList<Object> list = new90();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 91: /* reduce AParentesesTermo */
+		    {
+			ArrayList<Object> list = new91();
+			push(goTo(38), list);
+		    }
+		    break;
+                    case 92: /* reduce ATerminal$DefClasse */
+		    {
+			ArrayList<Object> list = new92();
+			push(goTo(39), list);
+		    }
+		    break;
+                    case 93: /* reduce ANonTerminal$DefClasse */
+		    {
+			ArrayList<Object> list = new93();
+			push(goTo(39), list);
+		    }
+		    break;
+                    case 94: /* reduce ATerminal$ListaRelacoes */
+		    {
+			ArrayList<Object> list = new94();
+			push(goTo(40), list);
+		    }
+		    break;
+                    case 95: /* reduce ANonTerminal$ListaRelacoes */
+		    {
+			ArrayList<Object> list = new95();
+			push(goTo(40), list);
+		    }
+		    break;
+                    case 96: /* reduce ATerminal$Declaracao */
+		    {
+			ArrayList<Object> list = new96();
+			push(goTo(41), list);
+		    }
+		    break;
+                    case 97: /* reduce ANonTerminal$Declaracao */
+		    {
+			ArrayList<Object> list = new97();
+			push(goTo(41), list);
+		    }
+		    break;
+                    case 98: /* reduce ATerminal$Metodo */
+		    {
+			ArrayList<Object> list = new98();
+			push(goTo(42), list);
+		    }
+		    break;
+                    case 99: /* reduce ANonTerminal$Metodo */
+		    {
+			ArrayList<Object> list = new99();
+			push(goTo(42), list);
+		    }
+		    break;
+                    case 100: /* reduce ATerminal$ParametroExtra */
+		    {
+			ArrayList<Object> list = new100();
+			push(goTo(43), list);
+		    }
+		    break;
+                    case 101: /* reduce ANonTerminal$ParametroExtra */
+		    {
+			ArrayList<Object> list = new101();
+			push(goTo(43), list);
+		    }
+		    break;
+                    case 102: /* reduce ATerminal$Comando */
+		    {
+			ArrayList<Object> list = new102();
+			push(goTo(44), list);
+		    }
+		    break;
+                    case 103: /* reduce ANonTerminal$Comando */
+		    {
+			ArrayList<Object> list = new103();
+			push(goTo(44), list);
+		    }
+		    break;
+                    case 104: /* reduce ATerminal$AcessoExtra */
+		    {
+			ArrayList<Object> list = new104();
+			push(goTo(45), list);
+		    }
+		    break;
+                    case 105: /* reduce ANonTerminal$AcessoExtra */
+		    {
+			ArrayList<Object> list = new105();
+			push(goTo(45), list);
+		    }
+		    break;
+                    case 106: /* reduce ATerminal$ExpExtra */
+		    {
+			ArrayList<Object> list = new106();
+			push(goTo(46), list);
+		    }
+		    break;
+                    case 107: /* reduce ANonTerminal$ExpExtra */
+		    {
+			ArrayList<Object> list = new107();
+			push(goTo(46), list);
+		    }
+		    break;
                     }
                     break;
                 case ACCEPT:
@@ -182,661 +829,6 @@ public class Parser
                         "[" + this.last_line + "," + this.last_pos + "] " +
                         Parser.errorMessages[Parser.errors[this.action[1]]]);
             }
-        }
-    }
-
-    private void reduce_0(int reduction) throws IOException, LexerException, ParserException
-    {
-        switch(reduction)
-        {
-            case 0: /* reduce AAprograma1Programa */
-            {
-                ArrayList<Object> list = new0();
-                push(goTo(0), list);
-            }
-            break;
-            case 1: /* reduce AAprograma2Programa */
-            {
-                ArrayList<Object> list = new1();
-                push(goTo(0), list);
-            }
-            break;
-            case 2: /* reduce AAgenealogia1Genealogia */
-            {
-                ArrayList<Object> list = new2();
-                push(goTo(1), list);
-            }
-            break;
-            case 3: /* reduce AAgenealogia2Genealogia */
-            {
-                ArrayList<Object> list = new3();
-                push(goTo(1), list);
-            }
-            break;
-            case 4: /* reduce AListaRelacoes */
-            {
-                ArrayList<Object> list = new4();
-                push(goTo(2), list);
-            }
-            break;
-            case 5: /* reduce ARelacao */
-            {
-                ArrayList<Object> list = new5();
-                push(goTo(3), list);
-            }
-            break;
-            case 6: /* reduce ADefClasse */
-            {
-                ArrayList<Object> list = new6();
-                push(goTo(4), list);
-            }
-            break;
-            case 7: /* reduce AAatributos1Atributos */
-            {
-                ArrayList<Object> list = new7();
-                push(goTo(5), list);
-            }
-            break;
-            case 8: /* reduce AAatributos2Atributos */
-            {
-                ArrayList<Object> list = new8();
-                push(goTo(5), list);
-            }
-            break;
-            case 9: /* reduce AObjDeclaracao */
-            {
-                ArrayList<Object> list = new9();
-                push(goTo(6), list);
-            }
-            break;
-            case 10: /* reduce AVarDeclaracao */
-            {
-                ArrayList<Object> list = new10();
-                push(goTo(6), list);
-            }
-            break;
-            case 11: /* reduce AConsDeclaracao */
-            {
-                ArrayList<Object> list = new11();
-                push(goTo(6), list);
-            }
-            break;
-            case 12: /* reduce ADecObj */
-            {
-                ArrayList<Object> list = new12();
-                push(goTo(7), list);
-            }
-            break;
-            case 13: /* reduce ADecVar */
-            {
-                ArrayList<Object> list = new13();
-                push(goTo(8), list);
-            }
-            break;
-            case 14: /* reduce ADecCons */
-            {
-                ArrayList<Object> list = new14();
-                push(goTo(9), list);
-            }
-            break;
-            case 15: /* reduce AAnswerTipoPrimitivo */
-            {
-                ArrayList<Object> list = new15();
-                push(goTo(10), list);
-            }
-            break;
-            case 16: /* reduce ANumberTipoPrimitivo */
-            {
-                ArrayList<Object> list = new16();
-                push(goTo(10), list);
-            }
-            break;
-            case 17: /* reduce AAmetodos1Metodos */
-            {
-                ArrayList<Object> list = new17();
-                push(goTo(11), list);
-            }
-            break;
-            case 18: /* reduce AAmetodos2Metodos */
-            {
-                ArrayList<Object> list = new18();
-                push(goTo(11), list);
-            }
-            break;
-            case 19: /* reduce AProcedimentoMetodo */
-            {
-                ArrayList<Object> list = new19();
-                push(goTo(12), list);
-            }
-            break;
-            case 20: /* reduce AFuncaoMetodo */
-            {
-                ArrayList<Object> list = new20();
-                push(goTo(12), list);
-            }
-            break;
-            case 21: /* reduce AAcomcomandodecprocedimento1DecProcedimento */
-            {
-                ArrayList<Object> list = new21();
-                push(goTo(13), list);
-            }
-            break;
-            case 22: /* reduce AAcomcomandodecprocedimento2DecProcedimento */
-            {
-                ArrayList<Object> list = new22();
-                push(goTo(13), list);
-            }
-            break;
-            case 23: /* reduce AAcomcomandodecprocedimento3DecProcedimento */
-            {
-                ArrayList<Object> list = new23();
-                push(goTo(13), list);
-            }
-            break;
-            case 24: /* reduce AAcomcomandodecprocedimento4DecProcedimento */
-            {
-                ArrayList<Object> list = new24();
-                push(goTo(13), list);
-            }
-            break;
-            case 25: /* reduce AAvaziodecprocedimento1DecProcedimento */
-            {
-                ArrayList<Object> list = new25();
-                push(goTo(13), list);
-            }
-            break;
-            case 26: /* reduce AAvaziodecprocedimento2DecProcedimento */
-            {
-                ArrayList<Object> list = new26();
-                push(goTo(13), list);
-            }
-            break;
-            case 27: /* reduce AAvaziodecprocedimento3DecProcedimento */
-            {
-                ArrayList<Object> list = new27();
-                push(goTo(13), list);
-            }
-            break;
-            case 28: /* reduce AAvaziodecprocedimento4DecProcedimento */
-            {
-                ArrayList<Object> list = new28();
-                push(goTo(13), list);
-            }
-            break;
-            case 29: /* reduce AAcomexpdecfuncao1DecFuncao */
-            {
-                ArrayList<Object> list = new29();
-                push(goTo(14), list);
-            }
-            break;
-            case 30: /* reduce AAcomexpdecfuncao2DecFuncao */
-            {
-                ArrayList<Object> list = new30();
-                push(goTo(14), list);
-            }
-            break;
-            case 31: /* reduce AAvaziadecfuncao1DecFuncao */
-            {
-                ArrayList<Object> list = new31();
-                push(goTo(14), list);
-            }
-            break;
-            case 32: /* reduce AAvaziadecfuncao2DecFuncao */
-            {
-                ArrayList<Object> list = new32();
-                push(goTo(14), list);
-            }
-            break;
-            case 33: /* reduce AClasseTipo */
-            {
-                ArrayList<Object> list = new33();
-                push(goTo(15), list);
-            }
-            break;
-            case 34: /* reduce APrimitivoTipo */
-            {
-                ArrayList<Object> list = new34();
-                push(goTo(15), list);
-            }
-            break;
-            case 35: /* reduce AAlistaparametros1ListaParametros */
-            {
-                ArrayList<Object> list = new35();
-                push(goTo(16), list);
-            }
-            break;
-            case 36: /* reduce AAlistaparametros2ListaParametros */
-            {
-                ArrayList<Object> list = new36();
-                push(goTo(16), list);
-            }
-            break;
-            case 37: /* reduce AParametroExtra */
-            {
-                ArrayList<Object> list = new37();
-                push(goTo(17), list);
-            }
-            break;
-            case 38: /* reduce AParametro */
-            {
-                ArrayList<Object> list = new38();
-                push(goTo(18), list);
-            }
-            break;
-            case 39: /* reduce AFechadoComando */
-            {
-                ArrayList<Object> list = new39();
-                push(goTo(19), list);
-            }
-            break;
-            case 40: /* reduce AAbertoComando */
-            {
-                ArrayList<Object> list = new40();
-                push(goTo(19), list);
-            }
-            break;
-            case 41: /* reduce ACondicionalElseComandoFechado */
-            {
-                ArrayList<Object> list = new41();
-                push(goTo(20), list);
-            }
-            break;
-            case 42: /* reduce ALacoComandoFechado */
-            {
-                ArrayList<Object> list = new42();
-                push(goTo(20), list);
-            }
-            break;
-            case 43: /* reduce AAtribuicaoComandoFechado */
-            {
-                ArrayList<Object> list = new43();
-                push(goTo(20), list);
-            }
-            break;
-            case 44: /* reduce AAtribuicaoObjComandoFechado */
-            {
-                ArrayList<Object> list = new44();
-                push(goTo(20), list);
-            }
-            break;
-            case 45: /* reduce ABlocoComandoFechado */
-            {
-                ArrayList<Object> list = new45();
-                push(goTo(20), list);
-            }
-            break;
-            case 46: /* reduce AChamadaComandoFechado */
-            {
-                ArrayList<Object> list = new46();
-                push(goTo(20), list);
-            }
-            break;
-            case 47: /* reduce ACondicionalComandoAberto */
-            {
-                ArrayList<Object> list = new47();
-                push(goTo(21), list);
-            }
-            break;
-            case 48: /* reduce ACondicionalElseComandoAberto */
-            {
-                ArrayList<Object> list = new48();
-                push(goTo(21), list);
-            }
-            break;
-            case 49: /* reduce ALacoComandoAberto */
-            {
-                ArrayList<Object> list = new49();
-                push(goTo(21), list);
-            }
-            break;
-            case 50: /* reduce ABloco */
-            {
-                ArrayList<Object> list = new50();
-                push(goTo(22), list);
-            }
-            break;
-            case 51: /* reduce AAlistacomandos1ListaComandos */
-            {
-                ArrayList<Object> list = new51();
-                push(goTo(23), list);
-            }
-            break;
-            case 52: /* reduce AAlistacomandos2ListaComandos */
-            {
-                ArrayList<Object> list = new52();
-                push(goTo(23), list);
-            }
-            break;
-            case 53: /* reduce AAchamada1Chamada */
-            {
-                ArrayList<Object> list = new53();
-                push(goTo(24), list);
-            }
-            break;
-            case 54: /* reduce AAchamada2Chamada */
-            {
-                ArrayList<Object> list = new54();
-                push(goTo(24), list);
-            }
-            break;
-            case 55: /* reduce AAchamada3Chamada */
-            {
-                ArrayList<Object> list = new55();
-                push(goTo(24), list);
-            }
-            break;
-            case 56: /* reduce AAchamada4Chamada */
-            {
-                ArrayList<Object> list = new56();
-                push(goTo(24), list);
-            }
-            break;
-            case 57: /* reduce AAlistaexp1ListaExp */
-            {
-                ArrayList<Object> list = new57();
-                push(goTo(25), list);
-            }
-            break;
-            case 58: /* reduce AAlistaexp2ListaExp */
-            {
-                ArrayList<Object> list = new58();
-                push(goTo(25), list);
-            }
-            break;
-            case 59: /* reduce AExpExtra */
-            {
-                ArrayList<Object> list = new59();
-                push(goTo(26), list);
-            }
-            break;
-            case 60: /* reduce AAcessoExtra */
-            {
-                ArrayList<Object> list = new60();
-                push(goTo(27), list);
-            }
-            break;
-            case 61: /* reduce AAcesso */
-            {
-                ArrayList<Object> list = new61();
-                push(goTo(28), list);
-            }
-            break;
-            case 62: /* reduce ABlocoExp */
-            {
-                ArrayList<Object> list = new62();
-                push(goTo(29), list);
-            }
-            break;
-            case 63: /* reduce ATernarioExp */
-            {
-                ArrayList<Object> list = new63();
-                push(goTo(30), list);
-            }
-            break;
-            case 64: /* reduce AOrExp */
-            {
-                ArrayList<Object> list = new64();
-                push(goTo(30), list);
-            }
-            break;
-            case 65: /* reduce AOrExpOr */
-            {
-                ArrayList<Object> list = new65();
-                push(goTo(31), list);
-            }
-            break;
-            case 66: /* reduce AAndExpOr */
-            {
-                ArrayList<Object> list = new66();
-                push(goTo(31), list);
-            }
-            break;
-            case 67: /* reduce AAndExpAnd */
-            {
-                ArrayList<Object> list = new67();
-                push(goTo(32), list);
-            }
-            break;
-            case 68: /* reduce AIgualExpAnd */
-            {
-                ArrayList<Object> list = new68();
-                push(goTo(32), list);
-            }
-            break;
-            case 69: /* reduce AIgualExpIgual */
-            {
-                ArrayList<Object> list = new69();
-                push(goTo(33), list);
-            }
-            break;
-            case 70: /* reduce ARelacionalExpIgual */
-            {
-                ArrayList<Object> list = new70();
-                push(goTo(33), list);
-            }
-            break;
-            case 71: /* reduce AMenorExpRelacional */
-            {
-                ArrayList<Object> list = new71();
-                push(goTo(34), list);
-            }
-            break;
-            case 72: /* reduce AMaiorExpRelacional */
-            {
-                ArrayList<Object> list = new72();
-                push(goTo(34), list);
-            }
-            break;
-            case 73: /* reduce ASomaExpRelacional */
-            {
-                ArrayList<Object> list = new73();
-                push(goTo(34), list);
-            }
-            break;
-            case 74: /* reduce ASomaExpSoma */
-            {
-                ArrayList<Object> list = new74();
-                push(goTo(35), list);
-            }
-            break;
-            case 75: /* reduce ASubtracaoExpSoma */
-            {
-                ArrayList<Object> list = new75();
-                push(goTo(35), list);
-            }
-            break;
-            case 76: /* reduce AMultExpSoma */
-            {
-                ArrayList<Object> list = new76();
-                push(goTo(35), list);
-            }
-            break;
-            case 77: /* reduce AMultExpMult */
-            {
-                ArrayList<Object> list = new77();
-                push(goTo(36), list);
-            }
-            break;
-            case 78: /* reduce ADivisaoExpMult */
-            {
-                ArrayList<Object> list = new78();
-                push(goTo(36), list);
-            }
-            break;
-            case 79: /* reduce AUnariaExpMult */
-            {
-                ArrayList<Object> list = new79();
-                push(goTo(36), list);
-            }
-            break;
-            case 80: /* reduce ANegacaoExpUnaria */
-            {
-                ArrayList<Object> list = new80();
-                push(goTo(37), list);
-            }
-            break;
-            case 81: /* reduce ANegativoExpUnaria */
-            {
-                ArrayList<Object> list = new81();
-                push(goTo(37), list);
-            }
-            break;
-            case 82: /* reduce ATermoExpUnaria */
-            {
-                ArrayList<Object> list = new82();
-                push(goTo(37), list);
-            }
-            break;
-            case 83: /* reduce AInteiroTermo */
-            {
-                ArrayList<Object> list = new83();
-                push(goTo(38), list);
-            }
-            break;
-            case 84: /* reduce ARealTermo */
-            {
-                ArrayList<Object> list = new84();
-                push(goTo(38), list);
-            }
-            break;
-            case 85: /* reduce AYesTermo */
-            {
-                ArrayList<Object> list = new85();
-                push(goTo(38), list);
-            }
-            break;
-            case 86: /* reduce ANoTermo */
-            {
-                ArrayList<Object> list = new86();
-                push(goTo(38), list);
-            }
-            break;
-            case 87: /* reduce AIdTermo */
-            {
-                ArrayList<Object> list = new87();
-                push(goTo(38), list);
-            }
-            break;
-            case 88: /* reduce AAcessoTermo */
-            {
-                ArrayList<Object> list = new88();
-                push(goTo(38), list);
-            }
-            break;
-            case 89: /* reduce AChamadaTermo */
-            {
-                ArrayList<Object> list = new89();
-                push(goTo(38), list);
-            }
-            break;
-            case 90: /* reduce ABlocoTermo */
-            {
-                ArrayList<Object> list = new90();
-                push(goTo(38), list);
-            }
-            break;
-            case 91: /* reduce AParentesesTermo */
-            {
-                ArrayList<Object> list = new91();
-                push(goTo(38), list);
-            }
-            break;
-            case 92: /* reduce ATerminal$DefClasse */
-            {
-                ArrayList<Object> list = new92();
-                push(goTo(39), list);
-            }
-            break;
-            case 93: /* reduce ANonTerminal$DefClasse */
-            {
-                ArrayList<Object> list = new93();
-                push(goTo(39), list);
-            }
-            break;
-            case 94: /* reduce ATerminal$ListaRelacoes */
-            {
-                ArrayList<Object> list = new94();
-                push(goTo(40), list);
-            }
-            break;
-            case 95: /* reduce ANonTerminal$ListaRelacoes */
-            {
-                ArrayList<Object> list = new95();
-                push(goTo(40), list);
-            }
-            break;
-            case 96: /* reduce ATerminal$Declaracao */
-            {
-                ArrayList<Object> list = new96();
-                push(goTo(41), list);
-            }
-            break;
-            case 97: /* reduce ANonTerminal$Declaracao */
-            {
-                ArrayList<Object> list = new97();
-                push(goTo(41), list);
-            }
-            break;
-            case 98: /* reduce ATerminal$Metodo */
-            {
-                ArrayList<Object> list = new98();
-                push(goTo(42), list);
-            }
-            break;
-            case 99: /* reduce ANonTerminal$Metodo */
-            {
-                ArrayList<Object> list = new99();
-                push(goTo(42), list);
-            }
-            break;
-            case 100: /* reduce ATerminal$ParametroExtra */
-            {
-                ArrayList<Object> list = new100();
-                push(goTo(43), list);
-            }
-            break;
-            case 101: /* reduce ANonTerminal$ParametroExtra */
-            {
-                ArrayList<Object> list = new101();
-                push(goTo(43), list);
-            }
-            break;
-            case 102: /* reduce ATerminal$Comando */
-            {
-                ArrayList<Object> list = new102();
-                push(goTo(44), list);
-            }
-            break;
-            case 103: /* reduce ANonTerminal$Comando */
-            {
-                ArrayList<Object> list = new103();
-                push(goTo(44), list);
-            }
-            break;
-            case 104: /* reduce ATerminal$AcessoExtra */
-            {
-                ArrayList<Object> list = new104();
-                push(goTo(45), list);
-            }
-            break;
-            case 105: /* reduce ANonTerminal$AcessoExtra */
-            {
-                ArrayList<Object> list = new105();
-                push(goTo(45), list);
-            }
-            break;
-            case 106: /* reduce ATerminal$ExpExtra */
-            {
-                ArrayList<Object> list = new106();
-                push(goTo(46), list);
-            }
-            break;
-            case 107: /* reduce ANonTerminal$ExpExtra */
-            {
-                ArrayList<Object> list = new107();
-                push(goTo(46), list);
-            }
-            break;
         }
     }
 

@@ -25,8 +25,8 @@ public class Main {
             Parser parser = new Parser(lexer);
             Start ast = parser.parse();
 
-            System.out.println("Analise Sintatica concluida com sucesso!");
-            System.out.println("Arvore sintatica:");
+            System.out.println("Analise Sintatica Abstrata concluida com sucesso!");
+            System.out.println("Arvore sintatica Abstrata:");
             ast.apply(new TreePrinter());
         } catch (ParserException e) {
             Token token = e.getToken();

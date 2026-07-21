@@ -126,7 +126,7 @@ Productions
             {-> New metodo.procedimento_vazio(ponto_entrada, id, [lista_parametros.parametro])};
 
     dec_funcao {-> metodo} = 
-        {com_exp} function tipo id colchete_esq lista_parametros? colchete_dir exp ponto 
+        {com_exp} function tipo id colchete_esq lista_parametros? colchete_dir exp
             {-> New metodo.funcao_exp(tipo, id, [lista_parametros.parametro], exp)} |
         {vazia} function tipo id colchete_esq lista_parametros? colchete_dir ponto 
             {-> New metodo.funcao_vazia(tipo, id, [lista_parametros.parametro])};

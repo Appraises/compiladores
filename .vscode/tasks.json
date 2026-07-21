@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compilar Gramatica SableCC",
+            "type": "shell",
+            "command": "java",
+            "args": [
+                "-jar",
+                "/home/raiz/Downloads/sablecc-3.6/lib/sablecc.jar", 
+                "${file}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
