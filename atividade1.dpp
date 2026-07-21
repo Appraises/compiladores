@@ -13,7 +13,7 @@ family Produto start
     start
         alterable number preco << valor_comprado / (1 * (porcentagem / 100)).
         preco
-    finish .
+    finish 
 finish
 
 family Mercado start
